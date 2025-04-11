@@ -1,5 +1,6 @@
 import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/widgets/icons_style.dart';
+import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
 import 'package:flutter/material.dart';
 
 // เมนตัวเลือกด้านบนของแอป
@@ -16,6 +17,7 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
   late CustomPopupMenuItem? _selectedItem;
   // เช็คว่าเป็นแท็บเล็ตหรือไม่
   bool isTablet = false;
+  Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
 
   @override
   void initState() {
@@ -61,9 +63,11 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
                   title: 'ออกจากระบบ',
                   icon: Icon(Icons.logout, color: primaryColor.withOpacity(0.8)),
                   onTap: () {
-                    // ปิดทั้ง popup menu และออกจากระบบไปหน้าเข้าสู่ระบบ
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    systemwidgetcustom.showDialogConfirm(context, 'ออกจากระบบ', 'ท่านต้องการออกจากระบบหรือไม่?', () {
+                      // ปิดทั้ง popup menu และออกจากระบบไปหน้าเข้าสู่ระบบ
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }, primaryColor, const Color.fromRGBO(255, 99, 71, 1));
                   },
                 ),
               ),

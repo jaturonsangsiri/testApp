@@ -1,10 +1,9 @@
-import 'package:firstapp/src/bloc/layout_bloc.dart';
-import 'package:firstapp/src/bloc/layout_event.dart';
 import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/widgets/device_widget.dart';
+import 'package:firstapp/src/widgets/icons_style.dart';
 import 'package:firstapp/src/widgets/options_menubar.dart';
 import 'package:firstapp/src/widgets/title.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,27 +13,66 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // ประกาศตัวแปร
+  // --------------- ประกาศตัวแปร ---------------
   // ข้อมูลประกอบด้วยชื่ออุปกรณ์ เลขอุปกรณ์ สถานะการเชื่อมต่อ
   List devices = [
     {
       'name': 'Device 1',
       'id': '123456',
-      'status': 'Connected',
+      'status': 'Online',
     },
     {
       'name': 'Device 2',
       'id': '654321',
-      'status': 'Disconnected',
+      'status': 'Offline',
     },
     {
       'name': 'Device 3',
       'id': '789012',
-      'status': 'Connected',
+      'status': 'Online',
+    },  
+    {
+      'name': 'Device 1',
+      'id': '123456',
+      'status': 'Online',
+    },
+    {
+      'name': 'Device 2',
+      'id': '654321',
+      'status': 'Offline',
+    },
+    {
+      'name': 'Device 3',
+      'id': '789012',
+      'status': 'Online',
     },  
   ];
+  // ข้อมูลตัวเลือกโรงพยาบาล
+  List hospitals = [
+    {'name': 'โรงพยาบาล 1', 'department': ['แผนก 1', 'แผนก 2']},
+    {'name': 'โรงพยาบาล 2', 'department': ['แผนก 3', 'แผนก 4']},
+    {'name': 'โรงพยาบาล 3', 'department': ['แผนก 5']},
+    {'name': 'โรงพยาบาล 4', 'department': ['แผนก 1', 'แผนก 2']},
+    {'name': 'โรงพยาบาล 5', 'department': ['แผนก 3', 'แผนก 4']},
+  ];
+  String hospitalSelected = 'โรงพยาบาล 1';
+  String departmentSelected = 'แผนก 1';
+  // ข้อมูลรายการแผนกของโรงพยาบาลที่เลือก
+  List<DropdownMenuEntry<String>> departmentEntries = [];
   // เช็คว่าเป็นแท็บเล็ตหรือไม่
   bool isTablet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // กำหนดค่าเริ่มต้นของ departmentEntries ตามโรงพยาบาลที่เลือก
+    departmentEntries = hospitals.first['department'].map<DropdownMenuEntry<String>>(() {
+      return DropdownMenuEntry<String>(
+        value: departmentSelected,
+        label: departmentSelected
+      ); 
+    }).tolist();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-
+          
                   // Randomized green circles
                   // สุ่มตำแหน่งวงกลมสีเขียว
                   for (int i = 0; i < 5; i++)
@@ -97,25 +135,109 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 10),
 
-              // แสดงข้อมูลรายการอุปกรณ์ที่มีทั้งหมด
-              for(int i =0; i < devices.length; i++)
-                ListTile(
-                  onTap: () {
-                    
-                  },
-                  leading: Container(
-                    width: isTablet? 80 : 50,
-                    height: isTablet? 80 : 50,
-                    decoration: BoxDecoration(
-                      color: fourColor,
-                      borderRadius: BorderRadius.circular(15),
+              // ตัวเลือกโรงพยาบาลและวอด
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10,),
+                    Text('เลือกโรงพยาบาล', style: TextStyle(fontSize: isTablet? 20 : 16, fontWeight: FontWeight.w700),),
+                    DropdownMenu<String>(
+                      initialSelection: hospitalSelected, 
+                      width: isTablet? width * 0.4 : width * 0.8,
+                      dropdownMenuEntries: hospitals.map((hospital) {
+                        return DropdownMenuEntry<String>(
+                          value: hospital['name'],
+                          label: hospital['name'],
+                        );
+                      }).toList(),
+                      onSelected: (value) {
+                        for (var hospital in hospitals) {
+                          if(hospital['name'] == value) {
+                            setState(() {
+                              hospitalSelected = value!;
+                              departmentSelected = hospital['department'][0];
+                              departmentEntries = hospital['department'].map<DropdownMenuEntry<String>>((department) {
+                                return DropdownMenuEntry<String>(
+                                  value: department,
+                                  label: department,
+                                );
+                              }).toList();
+                            });
+                          }
+                        }
+                      },
                     ),
-                    child: Text(''),
-                  ),
-                  title: Text(devices[i]['name'], style: TextStyle(fontSize: isTablet? 18 : 14),),
-                  subtitle: Text('ID: ${devices[i]['id']}', style: TextStyle(fontSize: isTablet? 18 : 14),),
+                    const SizedBox(height: 20,),
+                    Text('เลือกแผนก', style: TextStyle(fontSize: isTablet? 20 : 16, fontWeight: FontWeight.w700),),
+                    const SizedBox(height: 10,),
+                    DropdownMenu<String>(
+                      initialSelection: departmentSelected,
+                      width: isTablet? width * 0.4 : width * 0.8,
+                      dropdownMenuEntries: departmentEntries,
+                      onSelected: (value) {
+                        setState(() {
+                          departmentSelected = value!;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 25,),
+                  ],
                 ),
-
+              ),
+          
+              // แสดงข้อมูลรายการอุปกรณ์ที่มีทั้งหมด
+              Expanded(
+                child: ListView.builder(
+                  itemCount: devices.length,
+                  itemBuilder: (context, i) {
+                    return GestureDetector(
+                      onTap: () {
+                        print('Device ID: ${devices[i]['id']}');
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 8,
+                        color: Colors.white,
+                        shadowColor: Color.fromRGBO(181, 181, 181, 0.5),
+                        child: ListTile(
+                          leading: Container(
+                            padding: EdgeInsets.all(0),
+                            width: isTablet? 80 : 70,
+                            height: isTablet? 110 : 100,
+                            decoration: BoxDecoration(
+                              color: fourColor,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Text(''),
+                          ),
+                          title: Text(devices[i]['name'], style: TextStyle(fontSize: isTablet? 18 : 14, fontWeight: FontWeight.w700),),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('ID: ${devices[i]['id']}', style: TextStyle(fontSize: isTablet? 18 : 14),),
+                              Text('-', style: TextStyle(fontSize: isTablet? 18 : 14),),  
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  IconText(icon: Icons.percent, text: '25', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
+                                  IconText(icon: Icons.person, text: '1', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
+                                  IconText(icon: Icons.celebration, text: '10', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
+                                  IconText(icon: Icons.access_alarm, text: '2', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
+                                  devices[i]['status'] == 'Offline'? DeviceStatus(bgColor: Colors.red, textColor: Colors.white, status: devices[i]['status'], fontSize: isTablet? 15 : 12) : DeviceStatus(bgColor: Colors.green, textColor: Colors.white, status: devices[i]['status'], fontSize: isTablet? 15 : 12),                                     
+                                ],  
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              
             ],
           ),
         ),

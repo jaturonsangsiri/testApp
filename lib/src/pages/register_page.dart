@@ -37,6 +37,9 @@ class _RegisterPageState extends State<RegisterPage> {
   CusTextformfield custextfield = CusTextformfield();
   final Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
 
+  // เช็คว่าเป็นแท็บเล็ตหรือไม่
+  bool isTablet = false;
+
   // ---------- ฟังก์ชั่นจำลองสมัครบัญชี ----------
   void register() async {
     systemwidgetcustom.loadingWidget(context);
@@ -129,7 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // ขนาดหน้าจอ
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
+    isTablet = width > 600 ? true : false;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -174,11 +177,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
                 
                 // กล่องกรอกข้อมูลสมัครบัญชี
                 Align(
-                alignment: Alignment.center, 
+                  alignment: Alignment.center, 
                   child: Container(
                     padding: EdgeInsets.all(25),
                     height: 410,
@@ -262,10 +264,15 @@ class _RegisterPageState extends State<RegisterPage> {
                               onTap: () => Navigator.pop(context),
                               child: Text(
                                 ' เข้าสู่ระบบ',
-                                style: TextStyle(color: sixColor),
+                                style: TextStyle(color: sixColor, fontSize: isTablet? 16: 14),
                               ),
                             ),
                           ],
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Version: 1.1.0',
+                          style: TextStyle(color: secColor, fontSize: isTablet? 16: 14),
                         ),
                       ],
                     ),

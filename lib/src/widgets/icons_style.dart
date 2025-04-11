@@ -65,3 +65,24 @@ class CircleIcon extends StatelessWidget {
     );
   }
 }
+
+// ไอคอนแบบธรรมดา มีไอคอนและตัวหนังสือ
+class IconText extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final Color color;
+  final double size;
+  final double fontSize;
+  const IconText({super.key, required this.icon, required this.text, required this.color, required this.size, required this.fontSize});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, color: color,size: size,),
+        Text(text, style: TextStyle(color: color, fontSize: fontSize),),
+        const SizedBox(width: 10,)
+      ],
+    );
+  }
+}

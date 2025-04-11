@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   bool isShowPass = true;
   // จดจำบัญชีหรือไหม
   bool isRemember = false;
-  double fontSize = 16.0;
+  bool isTablet = true;
 
   // Widget System Custom
   final Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: BlocBuilder<LayoutBloc, LayoutState>(
         builder: (context, state) {
-          state is TabletLayoutState? fontSize = 16 :  fontSize = 14;
+          state is TabletLayoutState? isTablet = true :  isTablet = false;
           return SafeArea(
             child: Form(
               key: _formKey,
@@ -252,13 +252,13 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       Text(
                                         'จดจำบัญชี',
-                                        style: TextStyle(color: secColor, fontSize: 14, fontWeight: FontWeight.w500),
+                                        style: TextStyle(color: secColor, fontSize: isTablet? 14: 12, fontWeight: FontWeight.w500), 
                                       ),
                                     ],
                                   ),
                                   Text(
                                     'ลืมรหัสผ่าน',
-                                    style: TextStyle(color: sixColor, fontSize: 14, fontWeight: FontWeight.w500),
+                                    style: TextStyle(color: sixColor, fontSize: isTablet? 14: 12, fontWeight: FontWeight.w500),
                                   ),
                                 ],
                               ),
@@ -311,7 +311,7 @@ class _LoginPageState extends State<LoginPage> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('ยังไม่มีบัญชี?', style: TextStyle(color: secColor)),
+                                  Text('ยังไม่มีบัญชี?', style: TextStyle(color: secColor, fontSize: isTablet? 16: 14)),
                                   GestureDetector(
                                     onTap: () => Navigator.push(
                                         context, MaterialPageRoute(builder: (context) => RegisterPage())),
@@ -321,6 +321,11 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ),
                                 ],
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                'Version: 1.1.0',
+                                style: TextStyle(color: secColor, fontSize: isTablet? 16: 14),
                               ),
                             ],
                           ),
