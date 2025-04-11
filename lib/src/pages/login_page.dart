@@ -1,7 +1,12 @@
+import 'package:firstapp/src/bloc/layout_bloc.dart';
+import 'package:firstapp/src/bloc/layout_event.dart';
+import 'package:firstapp/src/bloc/layout_state.dart';
 import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/pages/home_page.dart';
 import 'package:firstapp/src/pages/register_page.dart';
+import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -31,6 +36,10 @@ class _LoginPageState extends State<LoginPage> {
   bool isShowPass = true;
   // จดจำบัญชีหรือไหม
   bool isRemember = false;
+  double fontSize = 16.0;
+
+  // Widget System Custom
+  final Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
 
   // ------------- ฟังก์ชั่นกดแสดงรหัสผ่าน ------------
   void togglePassword() {
@@ -45,12 +54,7 @@ class _LoginPageState extends State<LoginPage> {
 
   // ------------- ฟังก์ชั่นกดปุ่มเข้าสู๋ระบบ ------------
   void login() async {
-    // ขึ้นโหลดดิ้ง
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) { return Center(child: CircularProgressIndicator(),); }, 
-    );
+    systemwidgetcustom.loadingWidget(context);
 
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -106,221 +110,229 @@ class _LoginPageState extends State<LoginPage> {
     double height = MediaQuery.sizeOf(context).height;
     double width = MediaQuery.sizeOf(context).width;
 
-    return Scaffold(
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Stack(
-            children: [
-              Stack(
-                children: [
-                  // พื้นหลัง Gradient
-                  Positioned(
-                    top: 0,
-                    child: Container(
-                      height: height * 0.40,
-                      width: width,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [threeColor, fiveColor],
-                        ),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 70, left: 40),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'เข้าสู่ระบบ',
-                              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, color: Colors.white),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+    // ปรับ UI จอให้เหมาะสมกับขนาดจอ
+    context.read<LayoutBloc>().add(CheckLayoutEvent(width));
 
-                  // กล่องฟอร์ม (เข้าสู่ระบบหรือสมัครบัญชี)
-                  Align(
-                    alignment: Alignment.center, 
-                    child: Container(
-                      padding: EdgeInsets.all(25),
-                      height: 350,
-                      width: width * 0.85,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromRGBO(181, 181, 181, 0.5),
-                            blurRadius: 4,
-                            offset: Offset(4, 8), // Shadow position
+    return Scaffold(
+      body: BlocBuilder<LayoutBloc, LayoutState>(
+        builder: (context, state) {
+          state is TabletLayoutState? fontSize = 16 :  fontSize = 14;
+          return SafeArea(
+            child: Form(
+              key: _formKey,
+              child: Stack(
+                children: [
+                  Stack(
+                    children: [
+                      // พื้นหลัง Gradient
+                      Positioned(
+                        top: 0,
+                        child: Container(
+                          height: height * 0.40,
+                          width: width,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [secColor, fiveColor],
+                            ),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
                           ),
-                          BoxShadow(
-                            color: Color.fromRGBO(181, 181, 181, 0.5),
-                            blurRadius: 2,
-                            offset: Offset(-4, 8), // Shadow position
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 70, left: 40),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'เข้าสู่ระบบ',
+                                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, color: Colors.white),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ',
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
+                        ),
                       ),
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            decoration: InputDecoration(
-                              hintText: 'บัญชีผู้ใช้',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
+
+                      // กล่องฟอร์ม (เข้าสู่ระบบหรือสมัครบัญชี)
+                      Align(
+                        alignment: Alignment.center, 
+                        child: Container(
+                          padding: EdgeInsets.all(25),
+                          height: 350,
+                          width: width * 0.85,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromRGBO(181, 181, 181, 0.5),
+                                blurRadius: 4,
+                                offset: Offset(4, 8), // Shadow position
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(
-                                  color: threeColor.withOpacity(0.5),
-                                ),
-                              ),
-                            ),
-                            controller: usernameController,
-                            focusNode: userFocus,
-                            onSaved: (value) {
-                              username = value!;
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              hintText: 'รหัสผ่าน',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              suffixIcon: GestureDetector(
-                                onTap: togglePassword,
-                                child: isShowPass ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(
-                                  color: threeColor.withOpacity(0.5),
-                                ),
-                              ),
-                            ),
-                            obscureText: isShowPass,
-                            controller: passwordController,
-                            focusNode: passFocus,
-                            onSaved: (value) {
-                              password = value!;
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                    
-                          // ปุ่มลืมรหัสผ่านและจดจำบัญชี
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Checkbox(
-                                    value: isRemember,
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        isRemember = value!;
-                                      });
-                                    },
-                                    activeColor: threeColor,
-                                    side: BorderSide(
-                                      color: fourColor,
-                                    ),
-                                  ),
-                                  Text(
-                                    'จดจำบัญชี',
-                                    style: TextStyle(color: secColor, fontSize: 13, fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                'ลืมรหัสผ่าน',
-                                style: TextStyle(color: sixColor, fontSize: 13, fontWeight: FontWeight.w500),
+                              BoxShadow(
+                                color: Color.fromRGBO(181, 181, 181, 0.5),
+                                blurRadius: 2,
+                                offset: Offset(-4, 8), // Shadow position
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
-                    
-                          // ปุ่มเข้าสู่ระบบ
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Column(
                             children: [
-                              GestureDetector(
-                                onTap: login,
-                                child: Container(
-                                  width: 150,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: threeColor,
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'บัญชีผู้ใช้',
+                                  border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Color.fromRGBO(181, 181, 181, 0.5),
-                                        blurRadius: 4,
-                                        offset: Offset(4, 8), // Shadow position
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: sixColor.withOpacity(0.5),
+                                    ),
+                                  ),
+                                ),
+                                controller: usernameController,
+                                focusNode: userFocus,
+                                onSaved: (value) {
+                                  username = value!;
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'รหัสผ่าน',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  suffixIcon: GestureDetector(
+                                    onTap: togglePassword,
+                                    child: isShowPass ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide(
+                                      color: sixColor.withOpacity(0.5),
+                                    ),
+                                  ),
+                                ),
+                                obscureText: isShowPass,
+                                controller: passwordController,
+                                focusNode: passFocus,
+                                onSaved: (value) {
+                                  password = value!;
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                        
+                              // ปุ่มลืมรหัสผ่านและจดจำบัญชี
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                        value: isRemember,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            isRemember = value!;
+                                          });
+                                        },
+                                        activeColor: threeColor,
+                                        side: BorderSide(
+                                          color: fourColor,
+                                        ),
+                                      ),
+                                      Text(
+                                        'จดจำบัญชี',
+                                        style: TextStyle(color: secColor, fontSize: 14, fontWeight: FontWeight.w500),
                                       ),
                                     ],
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      'เข้าสู่ระบบ',
-                                      style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                                  Text(
+                                    'ลืมรหัสผ่าน',
+                                    style: TextStyle(color: sixColor, fontSize: 14, fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 30),
+                        
+                              // ปุ่มเข้าสู่ระบบ
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: login,
+                                    child: Container(
+                                      width: 150,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        color: secColor,
+                                        borderRadius: BorderRadius.circular(20),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(181, 181, 181, 0.5),
+                                            blurRadius: 4,
+                                            offset: Offset(4, 8), // Shadow position
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'เข้าสู่ระบบ',
+                                          style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
 
-                  // ปุ่มสร้างบัญชี
-                  Positioned(
-                    bottom: 0,
-                    child: Container(
-                      width: width,
-                      color: Colors.transparent,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                      // ปุ่มสร้างบัญชี
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          width: width,
+                          color: Colors.transparent,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text('ยังไม่มีบัญชี?', style: TextStyle(color: secColor)),
-                              GestureDetector(
-                                onTap: () => Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => RegisterPage())),
-                                child: Text(
-                                  ' สร้างบัญชี',
-                                  style: TextStyle(color: sixColor),
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('ยังไม่มีบัญชี?', style: TextStyle(color: secColor)),
+                                  GestureDetector(
+                                    onTap: () => Navigator.push(
+                                        context, MaterialPageRoute(builder: (context) => RegisterPage())),
+                                    child: Text(
+                                      ' สร้างบัญชี',
+                                      style: TextStyle(color: sixColor),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

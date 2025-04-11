@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 // เมนตัวเลือกด้านบนของแอป
 // แสดงเมนูต่างๆ ฟันเฟืองการต้งค่า ปุ่มแจ้งเตือน
 class OptionsMenubar extends StatefulWidget {
-  const OptionsMenubar({super.key, required this.selectedItem});
-  final CustomPopupMenuItem selectedItem;
+  const OptionsMenubar({super.key, this.selectedItem});
+  final CustomPopupMenuItem? selectedItem;
 
   @override
   State<OptionsMenubar> createState() => _OptionsMenubarState();
 }
 
 class _OptionsMenubarState extends State<OptionsMenubar> {
-  late CustomPopupMenuItem _selectedItem;
+  late CustomPopupMenuItem? _selectedItem;
+  // เช็คว่าเป็นแท็บเล็ตหรือไม่
+  bool isTablet = false;
 
   @override
   void initState() {
@@ -23,18 +25,21 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    width > 600? isTablet = true : isTablet = false;
     return Row(
       children: [
         CircleIcon(
-          icon: Icon(Icons.notifications, color: Colors.white, size: 20),
+          icon: Icon(Icons.notifications, color: Colors.white, size: isTablet? 25 : 20),
           colorbg: primaryColor,
-          padding: 2,
+          padding: isTablet? 4 : 2,
           function: () {},
         ),
+        const SizedBox(width: 20,),
         PopupMenuButton<CustomPopupMenuItem>(
           initialValue: _selectedItem,
           color: Colors.white,
-          child: Icon(Icons.settings, color: Colors.white, size: 20),
+          child: Icon(Icons.settings, color: Colors.white, size: isTablet? 25 : 20),
           onSelected: (CustomPopupMenuItem item) {
             setState(() {
               _selectedItem = item;
@@ -45,7 +50,7 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
               CustomCustomPopupMenuItem(
                 value: CustomPopupMenuItem(
                   title: 'โปรไฟล์',
-                  icon: Icon(Icons.person, color: threeColor.withOpacity(0.8)),
+                  icon: Icon(Icons.person, color: primaryColor.withOpacity(0.8)),
                   onTap: () {
                     // ไปหน้าโปรไฟล์
                   },
@@ -54,7 +59,7 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
               CustomCustomPopupMenuItem(
                 value: CustomPopupMenuItem(
                   title: 'ออกจากระบบ',
-                  icon: Icon(Icons.logout, color: threeColor.withOpacity(0.8)),
+                  icon: Icon(Icons.logout, color: primaryColor.withOpacity(0.8)),
                   onTap: () {
                     // ปิดทั้ง popup menu และออกจากระบบไปหน้าเข้าสู่ระบบ
                     Navigator.pop(context);
@@ -104,7 +109,7 @@ class _CustomCustomPopupMenuItemState extends State<CustomCustomPopupMenuItem> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: widget.value.icon,
-      title: Text(widget.value.title, style: TextStyle(color: threeColor),),
+      title: Text(widget.value.title, style: TextStyle(color: primaryColor),),
       onTap: widget.value.onTap,
     );
   }
