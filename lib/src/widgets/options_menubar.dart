@@ -2,6 +2,7 @@ import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/pages/notification_page.dart';
 import 'package:firstapp/src/widgets/icons_style.dart';
 import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
+import 'package:firstapp/src/widgets/webview_widget.dart';
 import 'package:flutter/material.dart';
 
 // เมนตัวเลือกด้านบนของแอป
@@ -52,11 +53,25 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
             return <PopupMenuEntry<CustomPopupMenuItem>>[
               CustomCustomPopupMenuItem(
                 value: CustomPopupMenuItem(
-                  title: 'โปรไฟล์',
+                  title: 'บัญชีผู้ใช้',
                   icon: Icon(Icons.person, color: primaryColor.withOpacity(0.8)),
                   onTap: () {
                     // ไปหน้าโปรไฟล์
                   },
+                ),
+              ),
+              CustomCustomPopupMenuItem(
+                value: CustomPopupMenuItem( 
+                  title: 'นโยบายความเป็นส่วนตัว',
+                  icon: Icon(Icons.privacy_tip, color: primaryColor.withOpacity(0.8)),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebviewWidget(url: 'https://siamatic.co.th/privacy-policy', title: 'นโยบายความเป็นส่วนตัว'),)),
+                ),
+              ),
+              CustomCustomPopupMenuItem(
+                value: CustomPopupMenuItem(
+                  title: 'ข้อกำหนดและเงื่อนไข',
+                  icon: Icon(Icons.info, color: primaryColor.withOpacity(0.8)),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebviewWidget(url: 'https://siamatic.co.th/terms-conditions', title: 'ข้อกำหนดและเงื่อนไข'),)),
                 ),
               ),
               CustomCustomPopupMenuItem(
@@ -66,6 +81,7 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
                   onTap: () {
                     systemwidgetcustom.showDialogConfirm(context, 'ออกจากระบบ', 'ท่านต้องการออกจากระบบหรือไม่?', () {
                       // ปิดทั้ง popup menu และออกจากระบบไปหน้าเข้าสู่ระบบ
+                      Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pop(context);
                     }, primaryColor, const Color.fromRGBO(255, 99, 71, 1));

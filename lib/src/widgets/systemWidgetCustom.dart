@@ -52,14 +52,14 @@ class Systemwidgetcustom {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 170, 168, 168)),),
+                Text(title, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 170, 168, 168),decoration: TextDecoration.none),),
                 const SizedBox(height: 30,),
-                Text(content!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),),
+                Text(content!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black,decoration: TextDecoration.none),),
                 Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    OutlinedButton(
+                    OutlinedButton(                                 
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -90,7 +90,6 @@ class Systemwidgetcustom {
                       ),
                       onPressed: () {
                         onConfirm(); // เรียกฟังก์ชันที่ส่งเข้ามา
-                        Navigator.of(context).pop(); // ปิด Dialog
                       },
                       child: Text('ตกลง', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white),),
                     ),
@@ -114,6 +113,77 @@ class Systemwidgetcustom {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(child: Text(text, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),),
+    );
+  }
+}
+
+// สวิทซ์เลื่อนสร้างขึ้นเอง
+class CustomSwitch extends StatefulWidget {
+  final bool value;
+  final ValueChanged<bool> onChanged;
+  final Color activeColor;
+  final Color inactiveColor;
+  final Color? thumbColor;
+  final double width;
+  final double height;
+
+  const CustomSwitch({
+    Key? key,
+    required this.value,
+    required this.onChanged,
+    this.activeColor = Colors.deepOrange,
+    this.inactiveColor = Colors.grey,
+    this.thumbColor = Colors.white,
+    this.width = 60,
+    this.height = 30,
+  }) : super(key: key);
+
+  @override
+  _CustomSwitchState createState() => _CustomSwitchState();
+}
+
+class _CustomSwitchState extends State<CustomSwitch>
+    with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        widget.onChanged(!widget.value);
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 250),
+        width: widget.width,
+        height: widget.height,
+        padding: EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: widget.value ? widget.activeColor : widget.inactiveColor,
+        ),
+        child: Stack(
+          children: [
+            AnimatedAlign(
+              duration: Duration(milliseconds: 250),
+              alignment:
+                  widget.value ? Alignment.centerRight : Alignment.centerLeft,
+              child: Container(
+                width: widget.height - 6,
+                height: widget.height - 6,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: widget.thumbColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- //////////////////// การขอ Permissions //////////////////// -->
+    <!-- ขอใช้อินเตอร์เน็ต -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="firstapp"
         android:name="${applicationName}"

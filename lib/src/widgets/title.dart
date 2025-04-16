@@ -19,8 +19,8 @@ class TitleName extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: SizedBox.fromSize(
               size: Size.fromRadius(isTablet ? 28 : 18),
-              child: Image.network(
-                'https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=',
+              child: Image.asset(
+                'lib/src/images/app-logo.png',
                 fit: BoxFit.cover,
                 height: 50,
                 scale: 0.7,

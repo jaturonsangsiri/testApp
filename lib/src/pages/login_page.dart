@@ -34,8 +34,6 @@ class _LoginPageState extends State<LoginPage> {
 
   // ตัวเช็คตัวเปิดมองเห็นรหัสผ่าน
   bool isShowPass = true;
-  // จดจำบัญชีหรือไหม
-  bool isRemember = false;
   bool isTablet = true;
 
   // Widget System Custom
@@ -166,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                         alignment: Alignment.center, 
                         child: Container(
                           padding: EdgeInsets.all(25),
-                          height: 350,
+                          height: 280,
                           width: width * 0.85,
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -229,38 +227,6 @@ class _LoginPageState extends State<LoginPage> {
                                 onSaved: (value) {
                                   password = value!;
                                 },
-                              ),
-                              const SizedBox(height: 10),
-                        
-                              // ปุ่มลืมรหัสผ่านและจดจำบัญชี
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Checkbox(
-                                        value: isRemember,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            isRemember = value!;
-                                          });
-                                        },
-                                        activeColor: threeColor,
-                                        side: BorderSide(
-                                          color: fourColor,
-                                        ),
-                                      ),
-                                      Text(
-                                        'จดจำบัญชี',
-                                        style: TextStyle(color: secColor, fontSize: isTablet? 14: 12, fontWeight: FontWeight.w500), 
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    'ลืมรหัสผ่าน',
-                                    style: TextStyle(color: sixColor, fontSize: isTablet? 14: 12, fontWeight: FontWeight.w500),
-                                  ),
-                                ],
                               ),
                               const SizedBox(height: 30),
                         

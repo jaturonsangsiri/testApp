@@ -1,5 +1,5 @@
 import 'package:firstapp/src/contants/contants.dart';
-import 'package:firstapp/src/pages/probe_setting.dart';
+import 'package:firstapp/src/pages/notification_settings_page.dart';
 import 'package:firstapp/src/widgets/tab_item.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +60,7 @@ class _NotificationPageState extends State<NotificationPage> {
         appBar: AppBar(
           centerTitle: true,
           leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back, color: Colors.white,),),
-          actions: [IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProbeSetting())), icon: Icon(Icons.settings, color: Colors.white))],
+          actions: [IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationSettingsPage())), icon: Icon(Icons.settings, color: Colors.white))],
           title: Text('แจ้งเตือน', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
           backgroundColor: secColor,
           bottom: PreferredSize(
