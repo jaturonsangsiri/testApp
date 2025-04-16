@@ -1,4 +1,5 @@
 import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/pages/notification_page.dart';
 import 'package:firstapp/src/widgets/icons_style.dart';
 import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
           icon: Icon(Icons.notifications, color: Colors.white, size: isTablet? 25 : 20),
           colorbg: primaryColor,
           padding: isTablet? 4 : 2,
-          function: () {},
+          function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationPage(),)),
         ),
         const SizedBox(width: 20,),
         PopupMenuButton<CustomPopupMenuItem>(

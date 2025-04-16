@@ -1,4 +1,5 @@
 import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/pages/deviceDetail_page.dart';
 import 'package:firstapp/src/widgets/device_widget.dart';
 import 'package:firstapp/src/widgets/icons_style.dart';
 import 'package:firstapp/src/widgets/options_menubar.dart';
@@ -15,63 +16,153 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // --------------- ประกาศตัวแปร ---------------
   // ข้อมูลประกอบด้วยชื่ออุปกรณ์ เลขอุปกรณ์ สถานะการเชื่อมต่อ
-  List devices = [
-    {
-      'name': 'Device 1',
-      'id': '123456',
-      'status': 'Online',
-    },
-    {
-      'name': 'Device 2',
-      'id': '654321',
-      'status': 'Offline',
-    },
-    {
-      'name': 'Device 3',
-      'id': '789012',
-      'status': 'Online',
-    },  
-    {
-      'name': 'Device 1',
-      'id': '123456',
-      'status': 'Online',
-    },
-    {
-      'name': 'Device 2',
-      'id': '654321',
-      'status': 'Offline',
-    },
-    {
-      'name': 'Device 3',
-      'id': '789012',
-      'status': 'Online',
-    },  
-  ];
+  List devices = [];
   // ข้อมูลตัวเลือกโรงพยาบาล
-  List hospitals = [
-    {'name': 'โรงพยาบาล 1', 'department': ['แผนก 1', 'แผนก 2']},
-    {'name': 'โรงพยาบาล 2', 'department': ['แผนก 3', 'แผนก 4']},
-    {'name': 'โรงพยาบาล 3', 'department': ['แผนก 5']},
-    {'name': 'โรงพยาบาล 4', 'department': ['แผนก 1', 'แผนก 2']},
-    {'name': 'โรงพยาบาล 5', 'department': ['แผนก 3', 'แผนก 4']},
+  List<Map> hospitals = [
+    {
+      'name': 'โรงพยาบาล 1',
+      'department': [
+        {
+          'name': 'แผนกฉุกเฉิน',
+          'devices': [
+            {'name': 'เครื่องช่วยหายใจ', 'id': 'A1001', 'status': 'Online'},
+            {'name': 'เครื่องวัดความดัน', 'id': 'A1002', 'status': 'Offline'},
+          ]
+        },
+        {
+          'name': 'แผนกอายุรกรรม',
+          'devices': [
+            {'name': 'เครื่องตรวจหัวใจ', 'id': 'A1003', 'status': 'Online'},
+            {'name': 'อุปกรณ์ช่วยพยุง', 'id': 'A1004', 'status': 'Maintenance'},
+          ]
+        },
+      ],
+    },
+    {
+      'name': 'โรงพยาบาล 2',
+      'department': [
+        {
+          'name': 'แผนกศัลยกรรม',
+          'devices': [
+            {'name': 'เครื่องเอกซเรย์', 'id': 'B2001', 'status': 'Online'},
+            {'name': 'เครื่องมือผ่าตัดไฟฟ้า', 'id': 'B2002', 'status': 'Offline'},
+          ]
+        },
+        {
+          'name': 'แผนกเด็ก',
+          'devices': [
+            {'name': 'ตู้อบเด็กแรกเกิด', 'id': 'B2003', 'status': 'Online'},
+            {'name': 'เครื่องวัดอุณหภูมิ', 'id': 'B2004', 'status': 'Error'},
+          ]
+        },
+      ],
+    },
+    {
+      'name': 'โรงพยาบาล 3',
+      'department': [
+        {
+          'name': 'แผนกผู้สูงอายุ',
+          'devices': [
+            {'name': 'เตียงผู้ป่วยไฟฟ้า', 'id': 'C3001', 'status': 'Online'},
+            {'name': 'เครื่องวัดระดับน้ำตาล', 'id': 'C3002', 'status': 'Offline'},
+          ]
+        },
+      ],
+    },
+    {
+      'name': 'โรงพยาบาล 4',
+      'department': [
+        {
+          'name': 'แผนกทันตกรรม',
+          'devices': [
+            {'name': 'เก้าอี้ทันตกรรม', 'id': 'D4001', 'status': 'Online'},
+            {'name': 'เครื่องดูดน้ำลาย', 'id': 'D4002', 'status': 'Offline'},
+          ]
+        },
+        {
+          'name': 'แผนกกายภาพบำบัด',
+          'devices': [
+            {'name': 'เครื่องกระตุ้นกล้ามเนื้อ', 'id': 'D4003', 'status': 'Online'},
+            {'name': 'ลู่วิ่งฟื้นฟู', 'id': 'D4004', 'status': 'Maintenance'},
+          ]
+        },
+      ],
+    },
+    {
+      'name': 'โรงพยาบาล 5',
+      'department': [
+        {
+          'name': 'แผนกสูตินรีเวช',
+          'devices': [
+            {'name': 'เครื่องอัลตร้าซาวด์', 'id': 'E5001', 'status': 'Online'},
+            {'name': 'เตียงคลอด', 'id': 'E5002', 'status': 'Offline'},
+          ]
+        },
+        {
+          'name': 'แผนกห้องพิเศษ',
+          'devices': [
+            {'name': 'ทีวีผู้ป่วย', 'id': 'E5003', 'status': 'Online'},
+            {'name': 'เครื่องปรับอากาศ', 'id': 'E5004', 'status': 'Error'},
+          ]
+        },
+      ],
+    },
   ];
+
   String hospitalSelected = 'โรงพยาบาล 1';
-  String departmentSelected = 'แผนก 1';
+  String departmentSelected = 'แผนกฉุกเฉิน';
   // ข้อมูลรายการแผนกของโรงพยาบาลที่เลือก
   List<DropdownMenuEntry<String>> departmentEntries = [];
   // เช็คว่าเป็นแท็บเล็ตหรือไม่
   bool isTablet = false;
 
+  // เซ็ตค่าเริ่มต้นของโรงพยาบาลและแผนก
+  void setDefault() {
+    hospitalSelected = hospitals.first['name'];
+    departmentSelected = hospitals.first['department'].first['name'];
+  }
+
+  // ดึงข้อมูลอุปกรณ์โรงพยาบาลและแผนก
+  void getHosAndDevice() {
+    for (var hospital in hospitals) {
+      if (hospital['name'] == hospitalSelected) {
+        departmentEntries = hospital['department'].map<DropdownMenuEntry<String>>((department) {
+          return DropdownMenuEntry<String>(
+            value: department['name'],
+            label: department['name'],
+          ); 
+        }).toList();
+
+        for (var department in hospital['department']) {
+          if(department['name'] == departmentSelected) {
+            devices = department['devices'];
+          }
+        }
+      }
+    }
+  }
+
+  // ฟังก์ชั่นแยกสีตามสถานะของอุปกรณ์
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'Online':
+        return Colors.green;
+      case 'Offline':
+        return Colors.red;
+      case 'Maintenance':
+        return Colors.yellow;
+      case 'Error':
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    // กำหนดค่าเริ่มต้นของ departmentEntries ตามโรงพยาบาลที่เลือก
-    departmentEntries = hospitals.first['department'].map<DropdownMenuEntry<String>>(() {
-      return DropdownMenuEntry<String>(
-        value: departmentSelected,
-        label: departmentSelected
-      ); 
-    }).tolist();
+    setDefault();
+    getHosAndDevice();
   }
 
   @override
@@ -156,13 +247,8 @@ class _HomePageState extends State<HomePage> {
                           if(hospital['name'] == value) {
                             setState(() {
                               hospitalSelected = value!;
-                              departmentSelected = hospital['department'][0];
-                              departmentEntries = hospital['department'].map<DropdownMenuEntry<String>>((department) {
-                                return DropdownMenuEntry<String>(
-                                  value: department,
-                                  label: department,
-                                );
-                              }).toList();
+                              departmentSelected = hospital['department'][0]['name'];
+                              getHosAndDevice();
                             });
                           }
                         }
@@ -178,6 +264,7 @@ class _HomePageState extends State<HomePage> {
                       onSelected: (value) {
                         setState(() {
                           departmentSelected = value!;
+                          getHosAndDevice();
                         });
                       },
                     ),
@@ -192,9 +279,7 @@ class _HomePageState extends State<HomePage> {
                   itemCount: devices.length,
                   itemBuilder: (context, i) {
                     return GestureDetector(
-                      onTap: () {
-                        print('Device ID: ${devices[i]['id']}');
-                      },
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DevicedetailPage(deviceData: devices[i],))),
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -226,7 +311,7 @@ class _HomePageState extends State<HomePage> {
                                   IconText(icon: Icons.person, text: '1', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
                                   IconText(icon: Icons.celebration, text: '10', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
                                   IconText(icon: Icons.access_alarm, text: '2', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
-                                  devices[i]['status'] == 'Offline'? DeviceStatus(bgColor: Colors.red, textColor: Colors.white, status: devices[i]['status'], fontSize: isTablet? 15 : 12) : DeviceStatus(bgColor: Colors.green, textColor: Colors.white, status: devices[i]['status'], fontSize: isTablet? 15 : 12),                                     
+                                  DeviceStatus(bgColor: getStatusColor(devices[i]['status']), textColor: Colors.white, status: devices[i]['status'], fontSize: isTablet? 15 : 12)                                     
                                 ],  
                               ),
                             ],
