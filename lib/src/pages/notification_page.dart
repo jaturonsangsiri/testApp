@@ -1,5 +1,6 @@
 import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/pages/notification_settings_page.dart';
+import 'package:firstapp/src/widgets/notification_widget.dart';
 import 'package:firstapp/src/widgets/tab_item.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-
+  NotificationWidget notificationWidget = NotificationWidget();
   List<Map<String, dynamic>> notifications = [
     {'title': 'โรงพยาบาลศิริราช','message': 'PROBE1: แจ้งเตือนเมื่ออุณหภูมิต่ำกว่า 15 องศา','datetime': '08:30 2025-04-15'},
     {'title': 'โรงพยาบาลจุฬา','message': 'PROBE2: แจ้งเตือนเมื่ออุณหภูมิสูงเกิน 35 องศา','datetime': '10:45 2025-04-15'},
@@ -36,21 +37,6 @@ class _NotificationPageState extends State<NotificationPage> {
     {'title': 'โรงพยาบาลลาดพร้าว','message': 'PROBE9: แจ้งเตือนเมื่อความชื้นสูงเกิน 65%','datetime': '06:45 2025-05-02'},
     {'title': 'โรงพยาบาลเปาโล','message': 'PROBE10: แจ้งเตือนเมื่อความชื้นต่ำกว่า 25%','datetime': '08:20 2025-05-02'},
   ];
-
-  // ฟังก์ชั่น Widget ของการแจ้งเตือน
-  Widget _buildNotificationWidget(String title, String subtitle, String time, String date) {
-    return ListTile(
-      leading: Icon(Icons.notifications, color: Colors.green.shade400,),
-      title: Text(title, style: TextStyle(fontSize: 15),),
-      subtitle: Text(subtitle, style: TextStyle(fontSize: 14),),
-      trailing: Column(
-        children: [
-          Text(time, style: TextStyle(fontSize: 14,),),
-          Text(date, style: TextStyle(fontSize: 14,),),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +81,7 @@ class _NotificationPageState extends State<NotificationPage> {
               child: Column(
                 children: [
                   for (var noti in notifications)
-                    _buildNotificationWidget(noti['title'], noti['message'], noti['datetime'].split(' ')[0], noti['datetime'].split(' ')[1]),
+                    notificationWidget.buildNotificationWidget(noti['title'], noti['message'], noti['datetime'].split(' ')[0], noti['datetime'].split(' ')[1]),
                 ],
               ),
             ),
@@ -103,7 +89,7 @@ class _NotificationPageState extends State<NotificationPage> {
               child: Column(
                 children: [
                   for (var noti in notificationsLine)
-                    _buildNotificationWidget(noti['title'], noti['message'], noti['datetime'].split(' ')[0], noti['datetime'].split(' ')[1]),
+                    notificationWidget.buildNotificationWidget(noti['title'], noti['message'], noti['datetime'].split(' ')[0], noti['datetime'].split(' ')[1]),
                 ],
               ),
             ),

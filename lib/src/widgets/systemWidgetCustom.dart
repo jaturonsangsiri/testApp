@@ -1,3 +1,4 @@
+import 'package:firstapp/src/contants/contants.dart';
 import 'package:flutter/material.dart';
 
 class Systemwidgetcustom {
@@ -113,6 +114,47 @@ class Systemwidgetcustom {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(child: Text(text, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),),
+    );
+  }
+
+  // ตัวหนังสือที่มีไอคอนอยู่ด้านหน้า
+  Widget textWithIcon(IconData icon, String text, Color color, double size) {
+    return Row(
+      children: [
+        Icon(icon, color: color,size: size * 1.5,),
+        const SizedBox(width: 5,),
+        Text(text, style: TextStyle(fontSize: size,color: color),)
+      ],
+    );
+  }
+
+  // Widget TextFormField
+  Widget normalTextFormField({
+    required String hintText,
+    required TextEditingController controller,
+    required TextInputType keyboardType,
+    required String valueSave,
+    required FocusNode focus,
+  }) {
+    return TextFormField(
+      focusNode: focus,
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(
+            color: sixColor.withOpacity(0.5),
+          ),
+        ),
+      ),
+      onSaved: (value) {
+        valueSave = value!;
+      },
     );
   }
 }

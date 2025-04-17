@@ -25,15 +25,59 @@ class _HomePageState extends State<HomePage> {
         {
           'name': 'แผนกฉุกเฉิน',
           'devices': [
-            {'name': 'เครื่องช่วยหายใจ', 'id': 'A1001', 'status': 'Online'},
-            {'name': 'เครื่องวัดความดัน', 'id': 'A1002', 'status': 'Offline'},
+            {
+              'name': 'เครื่องช่วยหายใจ',
+              'id': 'A1001',
+              'status': 'Online',
+              'location': 'ห้องฉุกเฉิน 101',
+              'temperature': 5.5,
+              'humidity': 72.1,
+              'lowest_temp': 2,
+              'highest_temp': 38,
+              'lowest_humi': 0,
+              'highest_humi': 100
+            },
+            {
+              'name': 'เครื่องวัดความดัน',
+              'id': 'A1002',
+              'status': 'Offline',
+              'location': 'ตู้เก็บอุปกรณ์',
+              'temperature': 8.3,
+              'humidity': 65.9,
+              'lowest_temp': 1,
+              'highest_temp': 36,
+              'lowest_humi': 10,
+              'highest_humi': 90
+            },
           ]
         },
         {
           'name': 'แผนกอายุรกรรม',
           'devices': [
-            {'name': 'เครื่องตรวจหัวใจ', 'id': 'A1003', 'status': 'Online'},
-            {'name': 'อุปกรณ์ช่วยพยุง', 'id': 'A1004', 'status': 'Maintenance'},
+            {
+              'name': 'เครื่องตรวจหัวใจ',
+              'id': 'A1003',
+              'status': 'Online',
+              'location': 'ชั้น 2 ห้อง 204',
+              'temperature': 4.9,
+              'humidity': 60.3,
+              'lowest_temp': 3,
+              'highest_temp': 40,
+              'lowest_humi': 20,
+              'highest_humi': 95
+            },
+            {
+              'name': 'อุปกรณ์ช่วยพยุง',
+              'id': 'A1004',
+              'status': 'Maintenance',
+              'location': 'คลังพัสดุ',
+              'temperature': 6.7,
+              'humidity': 81.5,
+              'lowest_temp': 5,
+              'highest_temp': 37,
+              'lowest_humi': 30,
+              'highest_humi': 85
+            },
           ]
         },
       ],
@@ -44,15 +88,59 @@ class _HomePageState extends State<HomePage> {
         {
           'name': 'แผนกศัลยกรรม',
           'devices': [
-            {'name': 'เครื่องเอกซเรย์', 'id': 'B2001', 'status': 'Online'},
-            {'name': 'เครื่องมือผ่าตัดไฟฟ้า', 'id': 'B2002', 'status': 'Offline'},
+            {
+              'name': 'เครื่องเอกซเรย์',
+              'id': 'B2001',
+              'status': 'Online',
+              'location': 'ห้อง X-Ray 1',
+              'temperature': 7.1,
+              'humidity': 59.8,
+              'lowest_temp': 4,
+              'highest_temp': 39,
+              'lowest_humi': 10,
+              'highest_humi': 90
+            },
+            {
+              'name': 'เครื่องมือผ่าตัดไฟฟ้า',
+              'id': 'B2002',
+              'status': 'Offline',
+              'location': 'ห้องผ่าตัดใหญ่',
+              'temperature': 6.0,
+              'humidity': 76.3,
+              'lowest_temp': 2,
+              'highest_temp': 35,
+              'lowest_humi': 5,
+              'highest_humi': 80
+            },
           ]
         },
         {
           'name': 'แผนกเด็ก',
           'devices': [
-            {'name': 'ตู้อบเด็กแรกเกิด', 'id': 'B2003', 'status': 'Online'},
-            {'name': 'เครื่องวัดอุณหภูมิ', 'id': 'B2004', 'status': 'Error'},
+            {
+              'name': 'ตู้อบเด็กแรกเกิด',
+              'id': 'B2003',
+              'status': 'Online',
+              'location': 'NICU',
+              'temperature': 4.3,
+              'humidity': 70.2,
+              'lowest_temp': 2,
+              'highest_temp': 34,
+              'lowest_humi': 15,
+              'highest_humi': 90
+            },
+            {
+              'name': 'เครื่องวัดอุณหภูมิ',
+              'id': 'B2004',
+              'status': 'Error',
+              'location': 'ห้องตรวจเด็ก',
+              'temperature': 9.0,
+              'humidity': 80.7,
+              'lowest_temp': 3,
+              'highest_temp': 37,
+              'lowest_humi': 20,
+              'highest_humi': 100
+            },
           ]
         },
       ],
@@ -63,8 +151,30 @@ class _HomePageState extends State<HomePage> {
         {
           'name': 'แผนกผู้สูงอายุ',
           'devices': [
-            {'name': 'เตียงผู้ป่วยไฟฟ้า', 'id': 'C3001', 'status': 'Online'},
-            {'name': 'เครื่องวัดระดับน้ำตาล', 'id': 'C3002', 'status': 'Offline'},
+            {
+              'name': 'เตียงผู้ป่วยไฟฟ้า',
+              'id': 'C3001',
+              'status': 'Online',
+              'location': 'ห้อง 301',
+              'temperature': 5.2,
+              'humidity': 69.1,
+              'lowest_temp': 1,
+              'highest_temp': 36,
+              'lowest_humi': 10,
+              'highest_humi': 100
+            },
+            {
+              'name': 'เครื่องวัดระดับน้ำตาล',
+              'id': 'C3002',
+              'status': 'Offline',
+              'location': 'ห้องพยาบาล',
+              'temperature': 6.6,
+              'humidity': 74.4,
+              'lowest_temp': 0,
+              'highest_temp': 35,
+              'lowest_humi': 5,
+              'highest_humi': 90
+            },
           ]
         },
       ],
@@ -75,15 +185,59 @@ class _HomePageState extends State<HomePage> {
         {
           'name': 'แผนกทันตกรรม',
           'devices': [
-            {'name': 'เก้าอี้ทันตกรรม', 'id': 'D4001', 'status': 'Online'},
-            {'name': 'เครื่องดูดน้ำลาย', 'id': 'D4002', 'status': 'Offline'},
+            {
+              'name': 'เก้าอี้ทันตกรรม',
+              'id': 'D4001',
+              'status': 'Online',
+              'location': 'คลินิกทันตกรรม',
+              'temperature': 5.0,
+              'humidity': 63.5,
+              'lowest_temp': 2,
+              'highest_temp': 39,
+              'lowest_humi': 15,
+              'highest_humi': 85
+            },
+            {
+              'name': 'เครื่องดูดน้ำลาย',
+              'id': 'D4002',
+              'status': 'Offline',
+              'location': 'หลังคลินิก',
+              'temperature': 7.3,
+              'humidity': 78.9,
+              'lowest_temp': 1,
+              'highest_temp': 38,
+              'lowest_humi': 20,
+              'highest_humi': 95
+            },
           ]
         },
         {
           'name': 'แผนกกายภาพบำบัด',
           'devices': [
-            {'name': 'เครื่องกระตุ้นกล้ามเนื้อ', 'id': 'D4003', 'status': 'Online'},
-            {'name': 'ลู่วิ่งฟื้นฟู', 'id': 'D4004', 'status': 'Maintenance'},
+            {
+              'name': 'เครื่องกระตุ้นกล้ามเนื้อ',
+              'id': 'D4003',
+              'status': 'Online',
+              'location': 'ชั้น 1',
+              'temperature': 4.4,
+              'humidity': 58.0,
+              'lowest_temp': 2,
+              'highest_temp': 36,
+              'lowest_humi': 10,
+              'highest_humi': 90
+            },
+            {
+              'name': 'ลู่วิ่งฟื้นฟู',
+              'id': 'D4004',
+              'status': 'Maintenance',
+              'location': 'ห้องกายภาพ 2',
+              'temperature': 5.8,
+              'humidity': 66.6,
+              'lowest_temp': 3,
+              'highest_temp': 35,
+              'lowest_humi': 5,
+              'highest_humi': 85
+            },
           ]
         },
       ],
@@ -94,15 +248,59 @@ class _HomePageState extends State<HomePage> {
         {
           'name': 'แผนกสูตินรีเวช',
           'devices': [
-            {'name': 'เครื่องอัลตร้าซาวด์', 'id': 'E5001', 'status': 'Online'},
-            {'name': 'เตียงคลอด', 'id': 'E5002', 'status': 'Offline'},
+            {
+              'name': 'เครื่องอัลตร้าซาวด์',
+              'id': 'E5001',
+              'status': 'Online',
+              'location': 'ห้องตรวจหญิง',
+              'temperature': 6.1,
+              'humidity': 62.2,
+              'lowest_temp': 2,
+              'highest_temp': 37,
+              'lowest_humi': 10,
+              'highest_humi': 90
+            },
+            {
+              'name': 'เตียงคลอด',
+              'id': 'E5002',
+              'status': 'Offline',
+              'location': 'ห้องคลอด 2',
+              'temperature': 7.4,
+              'humidity': 79.5,
+              'lowest_temp': 3,
+              'highest_temp': 36,
+              'lowest_humi': 15,
+              'highest_humi': 95
+            },
           ]
         },
         {
           'name': 'แผนกห้องพิเศษ',
           'devices': [
-            {'name': 'ทีวีผู้ป่วย', 'id': 'E5003', 'status': 'Online'},
-            {'name': 'เครื่องปรับอากาศ', 'id': 'E5004', 'status': 'Error'},
+            {
+              'name': 'ทีวีผู้ป่วย',
+              'id': 'E5003',
+              'status': 'Online',
+              'location': 'VIP Room A',
+              'temperature': 4.7,
+              'humidity': 61.3,
+              'lowest_temp': 2,
+              'highest_temp': 38,
+              'lowest_humi': 10,
+              'highest_humi': 85
+            },
+            {
+              'name': 'เครื่องปรับอากาศ',
+              'id': 'E5004',
+              'status': 'Error',
+              'location': 'ห้องพักผู้ป่วยพิเศษ',
+              'temperature': 8.2,
+              'humidity': 84.7,
+              'lowest_temp': 1,
+              'highest_temp': 39,
+              'lowest_humi': 20,
+              'highest_humi': 95
+            },
           ]
         },
       ],
@@ -115,6 +313,7 @@ class _HomePageState extends State<HomePage> {
   List<DropdownMenuEntry<String>> departmentEntries = [];
   // เช็คว่าเป็นแท็บเล็ตหรือไม่
   bool isTablet = false;
+  DeviceDetailWidget deviceDetail = DeviceDetailWidget();
 
   // เซ็ตค่าเริ่มต้นของโรงพยาบาลและแผนก
   void setDefault() {
@@ -139,22 +338,6 @@ class _HomePageState extends State<HomePage> {
           }
         }
       }
-    }
-  }
-
-  // ฟังก์ชั่นแยกสีตามสถานะของอุปกรณ์
-  Color getStatusColor(String status) {
-    switch (status) {
-      case 'Online':
-        return Colors.green;
-      case 'Offline':
-        return Colors.red;
-      case 'Maintenance':
-        return Colors.yellow;
-      case 'Error':
-        return Colors.orange;
-      default:
-        return Colors.grey;
     }
   }
 
@@ -311,7 +494,7 @@ class _HomePageState extends State<HomePage> {
                                   IconText(icon: Icons.person, text: '1', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
                                   IconText(icon: Icons.celebration, text: '10', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
                                   IconText(icon: Icons.access_alarm, text: '2', color: Colors.black, size: isTablet? 17 : 15, fontSize: isTablet? 16 : 13,),
-                                  DeviceStatus(bgColor: getStatusColor(devices[i]['status']), textColor: Colors.white, status: devices[i]['status'], fontSize: isTablet? 15 : 12)                                     
+                                  DeviceStatus(bgColor: deviceDetail.getStatusColor(devices[i]['status']), textColor: Colors.white, status: devices[i]['status'], fontSize: isTablet? 15 : 12)                                     
                                 ],  
                               ),
                             ],

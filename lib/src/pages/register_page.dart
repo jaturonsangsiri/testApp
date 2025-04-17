@@ -1,7 +1,6 @@
 import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
 import 'package:flutter/material.dart';
-import 'package:firstapp/src/widgets/cus_textFormField.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -34,8 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
   FocusNode conFocus = FocusNode();
   FocusNode accNameFocus = FocusNode();
   // custom widget
-  CusTextformfield custextfield = CusTextformfield();
-  final Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
+  Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
 
   // เช็คว่าเป็นแท็บเล็ตหรือไม่
   bool isTablet = false;
@@ -204,13 +202,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 20,),
-                        custextfield.normalTextFormField(controller: nameController,hintText: 'ชื่อผู้ใช้',keyboardType: TextInputType.name,valueSave: name, focus: nameFocus),
+                        systemwidgetcustom.normalTextFormField(controller: nameController,hintText: 'ชื่อผู้ใช้',keyboardType: TextInputType.name,valueSave: name, focus: nameFocus),
                         const SizedBox(height: 10,),
-                        custextfield.normalTextFormField(controller: passwordController,hintText: 'รหัสผ่าน',keyboardType: TextInputType.visiblePassword,valueSave: password, focus: passFocus),
+                        systemwidgetcustom.normalTextFormField(controller: passwordController,hintText: 'รหัสผ่าน',keyboardType: TextInputType.visiblePassword,valueSave: password, focus: passFocus),
                         const SizedBox(height: 10,),
-                        custextfield.normalTextFormField(hintText: 'ยืนยันรหัสผ่าน', controller: conFirmPasswordController, keyboardType: TextInputType.visiblePassword, valueSave: conFirmPassword, focus: conFocus),
+                        systemwidgetcustom.normalTextFormField(hintText: 'ยืนยันรหัสผ่าน', controller: conFirmPasswordController, keyboardType: TextInputType.visiblePassword, valueSave: conFirmPassword, focus: conFocus),
                         const SizedBox(height: 10,),
-                        custextfield.normalTextFormField(controller: accountNameController,hintText: 'ชื่อที่แสดง',keyboardType: TextInputType.name,valueSave: accountName, focus: accNameFocus),
+                        systemwidgetcustom.normalTextFormField(controller: accountNameController,hintText: 'ชื่อที่แสดง',keyboardType: TextInputType.name,valueSave: accountName, focus: accNameFocus),
                         const SizedBox(height: 30,),
 
                         // ปุ่มสมัครบัญชี
