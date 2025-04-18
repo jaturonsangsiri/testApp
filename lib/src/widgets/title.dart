@@ -1,7 +1,9 @@
+import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
 import 'package:flutter/material.dart';
 
 class TitleName extends StatelessWidget {
-  const TitleName({super.key});
+  TitleName({super.key});
+  Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +17,7 @@ class TitleName extends StatelessWidget {
             color: Colors.white60,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: SizedBox.fromSize(
-              size: Size.fromRadius(isTablet ? 28 : 18),
-              child: Image.asset(
-                'lib/src/images/app-logo.png',
-                fit: BoxFit.cover,
-                height: 50,
-                scale: 0.7,
-              ),
-            ),
-          ),
+          child: systemwidgetcustom.circleImageButton("lib/src/images/app-logo.png", 18, 50, () {}),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.5,

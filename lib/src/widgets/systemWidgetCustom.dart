@@ -157,6 +157,25 @@ class Systemwidgetcustom {
       },
     );
   }
+
+  // รูปโปรไฟล์ วงกลมมีรูปภาพอยู่ด้านใน
+  Widget circleImageButton(String picPath, double size, double picHeight, GestureTapCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: SizedBox.fromSize(
+          size: Size.fromRadius(size),
+          child: Image.asset(
+            picPath,
+            fit: BoxFit.cover,
+            height: picHeight,
+            scale: 0.7,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 // สวิทซ์เลื่อนสร้างขึ้นเอง

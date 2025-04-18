@@ -86,3 +86,44 @@ class IconText extends StatelessWidget {
     );
   }
 }
+
+// ไอคอนมีกรอบวงกลมรอบไอคอนแต่ไม่มีเลขเหมือนตัวแจ้งเตือน หรือแจ้งเตือนจำนวนข้อความ
+class CircleIconNoNumber extends StatelessWidget {
+  final Color? colorbg;
+  final Widget? icon;
+  final Function()? function;
+  final double padding;
+
+  const CircleIconNoNumber({
+    required this.icon,
+    required this.colorbg,
+    required this.function,
+    required this.padding,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: function,
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all(CircleBorder()),
+        padding: MaterialStateProperty.all(EdgeInsets.all(padding)),
+        backgroundColor: MaterialStateProperty.all(
+          colorbg,
+        ), // <-- Button color
+        overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
+          if (states.contains(MaterialState.pressed)) {
+            return threeColor; // <-- Splash color
+          }
+        }),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          icon!,
+        ],
+      ),
+    );
+  }
+}

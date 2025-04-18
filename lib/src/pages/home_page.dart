@@ -407,7 +407,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                 ],
               ),
-              const SizedBox(height: 10),
+              //const SizedBox(height: 10),
 
               // ตัวเลือกโรงพยาบาลและวอด
               Center(
@@ -415,7 +415,8 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10,),
-                    Text('เลือกโรงพยาบาล', style: TextStyle(fontSize: isTablet? 20 : 16, fontWeight: FontWeight.w700),),
+                    Text('โรงพยาบาล', style: TextStyle(fontSize: isTablet? 20 : 16, fontWeight: FontWeight.w700),),
+                    const SizedBox(height: 10,),
                     DropdownMenu<String>(
                       initialSelection: hospitalSelected, 
                       width: isTablet? width * 0.4 : width * 0.8,
@@ -437,8 +438,8 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
                     ),
-                    const SizedBox(height: 20,),
-                    Text('เลือกแผนก', style: TextStyle(fontSize: isTablet? 20 : 16, fontWeight: FontWeight.w700),),
+                    const SizedBox(height: 10,),
+                    Text('แผนก', style: TextStyle(fontSize: isTablet? 20 : 16, fontWeight: FontWeight.w700),),
                     const SizedBox(height: 10,),
                     DropdownMenu<String>(
                       initialSelection: departmentSelected,
@@ -451,10 +452,10 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                     ),
-                    const SizedBox(height: 25,),
                   ],
                 ),
               ),
+              const SizedBox(height: 20,),
           
               // แสดงข้อมูลรายการอุปกรณ์ที่มีทั้งหมด
               Expanded(

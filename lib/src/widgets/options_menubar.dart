@@ -1,5 +1,6 @@
 import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/pages/notification_page.dart';
+import 'package:firstapp/src/pages/profile_page.dart';
 import 'package:firstapp/src/widgets/icons_style.dart';
 import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
 import 'package:firstapp/src/widgets/webview_widget.dart';
@@ -34,16 +35,16 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
     return Row(
       children: [
         CircleIcon(
-          icon: Icon(Icons.notifications, color: Colors.white, size: isTablet? 25 : 20),
+          icon: Icon(Icons.notifications, color: Colors.white, size: isTablet? 35 : 30),
           colorbg: primaryColor,
-          padding: isTablet? 4 : 2,
+          padding: isTablet? 15 : 10,
           function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationPage(),)),
         ),
         const SizedBox(width: 20,),
         PopupMenuButton<CustomPopupMenuItem>(
           initialValue: _selectedItem,
           color: Colors.white,
-          child: Icon(Icons.settings, color: Colors.white, size: isTablet? 25 : 20),
+          child: Icon(Icons.settings, color: Colors.white, size: isTablet? 35 : 30),
           onSelected: (CustomPopupMenuItem item) {
             setState(() {
               _selectedItem = item;
@@ -54,30 +55,29 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
               CustomCustomPopupMenuItem(
                 value: CustomPopupMenuItem(
                   title: 'บัญชีผู้ใช้',
-                  icon: Icon(Icons.person, color: primaryColor.withOpacity(0.8)),
-                  onTap: () {
-                    // ไปหน้าโปรไฟล์
-                  },
+                  icon: Icon(Icons.person, size: 20, color: primaryColor.withOpacity(0.8)),
+                  // ไปหน้าโปรไฟล์
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(),)),
                 ),
               ),
               CustomCustomPopupMenuItem(
                 value: CustomPopupMenuItem( 
                   title: 'นโยบายความเป็นส่วนตัว',
-                  icon: Icon(Icons.privacy_tip, color: primaryColor.withOpacity(0.8)),
+                  icon: Icon(Icons.privacy_tip, size: 20, color: primaryColor.withOpacity(0.8)),
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebviewWidget(url: 'https://siamatic.co.th/privacy-policy', title: 'นโยบายความเป็นส่วนตัว'),)),
                 ),
               ),
               CustomCustomPopupMenuItem(
                 value: CustomPopupMenuItem(
                   title: 'ข้อกำหนดและเงื่อนไข',
-                  icon: Icon(Icons.info, color: primaryColor.withOpacity(0.8)),
+                  icon: Icon(Icons.info, size: 20, color: primaryColor.withOpacity(0.8)),
                   onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebviewWidget(url: 'https://siamatic.co.th/terms-conditions', title: 'ข้อกำหนดและเงื่อนไข'),)),
                 ),
               ),
               CustomCustomPopupMenuItem(
                 value: CustomPopupMenuItem(
                   title: 'ออกจากระบบ',
-                  icon: Icon(Icons.logout, color: primaryColor.withOpacity(0.8)),
+                  icon: Icon(Icons.logout, size: 20, color: primaryColor.withOpacity(0.8)),
                   onTap: () {
                     systemwidgetcustom.showDialogConfirm(context, 'ออกจากระบบ', 'ท่านต้องการออกจากระบบหรือไม่?', () {
                       // ปิดทั้ง popup menu และออกจากระบบไปหน้าเข้าสู่ระบบ
@@ -128,10 +128,6 @@ class CustomCustomPopupMenuItem extends PopupMenuEntry<CustomPopupMenuItem> {
 class _CustomCustomPopupMenuItemState extends State<CustomCustomPopupMenuItem> {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: widget.value.icon,
-      title: Text(widget.value.title, style: TextStyle(color: primaryColor),),
-      onTap: widget.value.onTap,
-    );
+    return TextButton.icon(onPressed: widget.value.onTap, style: TextButton.styleFrom(alignment: Alignment.centerLeft,padding: const EdgeInsets.symmetric(horizontal: 16.0)), icon: widget.value.icon, label: Text(widget.value.title, style: TextStyle(color: primaryColor, fontSize: 16),),);
   }
 }
