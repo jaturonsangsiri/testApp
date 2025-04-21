@@ -45,7 +45,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
         },
         inactiveColor: Colors.grey.shade400,  
         thumbColor: Colors.white,
-        activeColor: primaryColor.withOpacity(0.5),
+        activeColor: threeColor.withOpacity(0.5),
       ),
     );
   }

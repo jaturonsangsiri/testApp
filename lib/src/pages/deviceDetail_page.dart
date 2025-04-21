@@ -2,8 +2,8 @@ import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/pages/probe_setting.dart';
 import 'package:firstapp/src/widgets/device_widget.dart';
 import 'package:firstapp/src/widgets/tab_item.dart';
+import 'package:firstapp/src/widgets/tabbar_bottom_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DevicedetailPage extends StatefulWidget {
   // ข้อมูลอุปกรณ์ที่ส่งมาจากหน้าแรก
@@ -17,13 +17,12 @@ class DevicedetailPage extends StatefulWidget {
 
 class _DevicedetailPageState extends State<DevicedetailPage> {
   final Map<String, dynamic> deviceData;
-_DevicedetailPageState({required this.deviceData});
+  _DevicedetailPageState({required this.deviceData});
+
+  TabbarBottomAppbar tabbarBottomAppbar = TabbarBottomAppbar();
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    bool isTablet = width > 600 ? true : false;
     List<Map<String, dynamic>> notifications = [
       {'title': 'โรงพยาบาลศิริราช','message': 'PROBE1: แจ้งเตือนเมื่ออุณหภูมิต่ำกว่า 15 องศา','datetime': '08:30 2025-04-15'},
       {'title': 'โรงพยาบาลจุฬา','message': 'PROBE2: แจ้งเตือนเมื่ออุณหภูมิสูงเกิน 35 องศา','datetime': '10:45 2025-04-15'},
@@ -38,7 +37,7 @@ _DevicedetailPageState({required this.deviceData});
     ];
 
     return DefaultTabController(
-      length: 1,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -46,33 +45,14 @@ _DevicedetailPageState({required this.deviceData});
           actions: [IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProbeSetting())), icon: Icon(Icons.settings, color: Colors.white))],
           title: Text('${deviceData['name']}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
           backgroundColor: secColor,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(40), 
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: Container(
-                height: 40,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.green.shade100),
-                child: TabBar(
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  dividerColor: Colors.transparent,
-                  indicator: BoxDecoration(
-                    color: threeColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  labelColor: Colors.white,
-                  unselectedLabelColor: const Color.fromARGB(255, 94, 94, 94),
-                  tabs: [
-                    TabItem(title: 'โพรบ 1'),
-                  ]
-                ),
-              ),
-            ),
-          ),
+          bottom: tabbarBottomAppbar.tabbarBottomApp([
+            TabItem(title: 'โพรบ 1'),
+            TabItem(title: 'โพรบ 2'),
+          ]),
         ),
         body: TabBarView(
           children: [
+            DeviceDetailWidget(deviceData: deviceData,notifications: notifications,),
             DeviceDetailWidget(deviceData: deviceData,notifications: notifications,),
           ],
         ),

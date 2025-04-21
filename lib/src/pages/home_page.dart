@@ -417,40 +417,46 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 10,),
                     Text('โรงพยาบาล', style: TextStyle(fontSize: isTablet? 20 : 16, fontWeight: FontWeight.w700),),
                     const SizedBox(height: 10,),
-                    DropdownMenu<String>(
-                      initialSelection: hospitalSelected, 
-                      width: isTablet? width * 0.4 : width * 0.8,
-                      dropdownMenuEntries: hospitals.map((hospital) {
-                        return DropdownMenuEntry<String>(
-                          value: hospital['name'],
-                          label: hospital['name'],
-                        );
-                      }).toList(),
-                      onSelected: (value) {
-                        for (var hospital in hospitals) {
-                          if(hospital['name'] == value) {
-                            setState(() {
-                              hospitalSelected = value!;
-                              departmentSelected = hospital['department'][0]['name'];
-                              getHosAndDevice();
-                            });
+                    DropdownMenuTheme(
+                      data: DropdownMenuThemeData(menuStyle: MenuStyle(backgroundColor: WidgetStateProperty.all(Colors.white),)),
+                      child: DropdownMenu<String>(
+                        initialSelection: hospitalSelected, 
+                        width: isTablet? width * 0.4 : width * 0.8,
+                        dropdownMenuEntries: hospitals.map((hospital) {
+                          return DropdownMenuEntry<String>(
+                            value: hospital['name'],
+                            label: hospital['name'],
+                          );
+                        }).toList(),
+                        onSelected: (value) {
+                          for (var hospital in hospitals) {
+                            if(hospital['name'] == value) {
+                              setState(() {
+                                hospitalSelected = value!;
+                                departmentSelected = hospital['department'][0]['name'];
+                                getHosAndDevice();
+                              });
+                            }
                           }
-                        }
-                      },
+                        },
+                      ),
                     ),
                     const SizedBox(height: 10,),
                     Text('แผนก', style: TextStyle(fontSize: isTablet? 20 : 16, fontWeight: FontWeight.w700),),
                     const SizedBox(height: 10,),
-                    DropdownMenu<String>(
-                      initialSelection: departmentSelected,
-                      width: isTablet? width * 0.4 : width * 0.8,
-                      dropdownMenuEntries: departmentEntries,
-                      onSelected: (value) {
-                        setState(() {
-                          departmentSelected = value!;
-                          getHosAndDevice();
-                        });
-                      },
+                    DropdownMenuTheme(
+                      data: DropdownMenuThemeData(menuStyle: MenuStyle(backgroundColor: WidgetStateProperty.all(Colors.white),)),
+                      child: DropdownMenu<String>(
+                        initialSelection: departmentSelected,
+                        width: isTablet? width * 0.4 : width * 0.8,
+                        dropdownMenuEntries: departmentEntries,
+                        onSelected: (value) {
+                          setState(() {
+                            departmentSelected = value!;
+                            getHosAndDevice();
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),

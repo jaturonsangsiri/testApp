@@ -50,7 +50,7 @@ class DeviceDetailWidget extends StatelessWidget {
                         SizedBox(height: 4),
                         Text(
                           'รหัส: ${deviceData['id']} • ${deviceData['location']}',
-                          style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                          style: TextStyle(color: Colors.grey[600], fontSize: 15),
                         ),
                       ],
                     ),
@@ -77,6 +77,7 @@ class DeviceDetailWidget extends StatelessWidget {
                   ),
                   Divider(height: 24),
           
+                  SizedBox(height: 10),
                   // อุณหภูมิ / ความชื้น
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -95,7 +96,7 @@ class DeviceDetailWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 30),
           
                   // ช่วงค่าที่รองรับ
                   Row(
@@ -132,13 +133,13 @@ class DeviceDetailWidget extends StatelessWidget {
   }) {
     return Column(
       children: [
-        Icon(icon, color: color, size: 24),
+        Icon(icon, color: color, size: 50),
         SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 13)),
+        Text(label, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
         Text(
           value,
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 40,
             fontWeight: FontWeight.bold,
             color: color,
           ),
@@ -151,9 +152,9 @@ class DeviceDetailWidget extends StatelessWidget {
   Widget _buildRangeColumn(String title, String value) {
     return Column(
       children: [
-        Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+        Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
         SizedBox(height: 4),
-        Text(value, style: TextStyle(fontSize: 13, color: Colors.grey[700])),
+        Text(value, style: TextStyle(fontSize: 18, color: Colors.grey[700])),
       ],
     );
   }
