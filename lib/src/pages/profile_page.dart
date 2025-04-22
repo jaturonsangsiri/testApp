@@ -1,6 +1,6 @@
 import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/widgets/icons_style.dart';
-import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
+import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -146,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Stack(
                       children: [
                         // รูปโปรไฟล์
-                        systemwidgetcustom.circleImageButton("lib/src/images/app-logo.png",80,130,() {},),
+                        systemwidgetcustom.circleImageButton("assets/images/app-logo.png",80,130,() {},),
                         // ไอคอนกล้อง
                         Positioned(
                           bottom: 0,

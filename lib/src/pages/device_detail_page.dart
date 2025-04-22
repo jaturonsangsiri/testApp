@@ -2,7 +2,7 @@ import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/pages/probe_setting.dart';
 import 'package:firstapp/src/widgets/device_widget.dart';
 import 'package:firstapp/src/widgets/tab_item.dart';
-import 'package:firstapp/src/widgets/tabbar_bottom_appbar.dart';
+import 'package:firstapp/src/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 
 class DevicedetailPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _DevicedetailPageState extends State<DevicedetailPage> {
   final Map<String, dynamic> deviceData;
   _DevicedetailPageState({required this.deviceData});
 
-  TabbarBottomAppbar tabbarBottomAppbar = TabbarBottomAppbar();
+  BarCustom tabbarBottomAppbar = BarCustom();
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +39,10 @@ class _DevicedetailPageState extends State<DevicedetailPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back, color: Colors.white,),),
-          actions: [IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProbeSetting())), icon: Icon(Icons.settings, color: Colors.white))],
-          title: Text('${deviceData['name']}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-          backgroundColor: secColor,
-          bottom: tabbarBottomAppbar.tabbarBottomApp([
-            TabItem(title: 'โพรบ 1'),
-            TabItem(title: 'โพรบ 2'),
-          ]),
-        ),
+        appBar: tabbarBottomAppbar.appBarCustom(context, 'แจ้งเตือน', [
+          TabItem(title: 'eTEMP/iTemS'),
+          TabItem(title: 'Line Notify'),
+        ], [IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProbeSetting())), icon: Icon(Icons.settings, color: Colors.white, size: 30,)), const SizedBox(width: 20,)]),
         body: TabBarView(
           children: [
             DeviceDetailWidget(deviceData: deviceData,notifications: notifications,),

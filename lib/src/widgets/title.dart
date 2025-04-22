@@ -1,4 +1,4 @@
-import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
+import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/material.dart';
 
 class TitleName extends StatelessWidget {
@@ -17,7 +17,7 @@ class TitleName extends StatelessWidget {
             color: Colors.white60,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: systemwidgetcustom.circleImageButton("lib/src/images/app-logo.png", 18, 50, () {}),
+          child: systemwidgetcustom.circleImageButton("assets/images/app-logo.png", 18, 50, () {}),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.5,

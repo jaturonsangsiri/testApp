@@ -1,7 +1,7 @@
 import 'package:firstapp/src/contants/contants.dart';
-import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
+import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:firstapp/src/widgets/tab_item.dart';
-import 'package:firstapp/src/widgets/tabbar_bottom_appbar.dart';
+import 'package:firstapp/src/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 
 class ProbeSetting extends StatefulWidget {
@@ -20,7 +20,7 @@ class _ProbeSettingState extends State<ProbeSetting> {
   // ช่วงนาทีที่เลือกได้
   List<int> mins = [0,5,10,15,20,25,30];
   // วันที่เลือกแจ้งเตือนได้
-  List<String> days = ['mon','tue','wed','thu','fri','sat','sun','off'];
+  List<String> days = ['MON','TUE','WED','THU','FRI','SAT','SUN','OFF'];
 
   // หน่วงการแจ้งเตือนครั้งแรก
   int delayfirstNoti = 0;
@@ -29,19 +29,19 @@ class _ProbeSettingState extends State<ProbeSetting> {
   // แจ้งเตือนทุกวัน หรือไม่?
   bool isDairyNoti = true;
   // แจ้งเตือนที่วันที่ 1
-  String firstDayNoti = 'mon';
+  String firstDayNoti = 'MON';
   // เวลาเริ่มต้นช่วงที่ 1
   TimeOfDay firstTime = TimeOfDay(hour: 8, minute: 0);
   // แจ้งเตือนที่วันที่ 2
-  String secondDayNoti = 'tue';
+  String secondDayNoti = 'TUE';
   // เวลาเริ่มต้นช่วงที่ 2
   TimeOfDay secondTime = TimeOfDay(hour: 12, minute: 0);
   // แจ้งเตือนที่วันที่ 3
-  String thirdDayNoti = 'fri';
+  String thirdDayNoti = 'FRI';
   // เวลาเริ่มต้นช่วงที่ 3
   TimeOfDay thirdTime = TimeOfDay(hour: 17, minute: 0);
 
-  TabbarBottomAppbar tabbarBottomAppbar = TabbarBottomAppbar();
+  BarCustom tabbarBottomAppbar = BarCustom();
   Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
 
   // เลือกตัวเวลา
@@ -57,16 +57,10 @@ class _ProbeSettingState extends State<ProbeSetting> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back, color: Colors.white,),),
-          title: Text('ตั้งค่าโพรบ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-          backgroundColor: secColor,
-          bottom: tabbarBottomAppbar.tabbarBottomApp([
-            TabItem(title: 'โพรบ 1'),
-            TabItem(title: 'โพรบ 2'),
-          ]),
-        ),
+        appBar: tabbarBottomAppbar.appBarCustom(context, 'ตั้งค่าโพรบ', [
+          TabItem(title: 'โพรบ 1'),
+          TabItem(title: 'โพรบ 2'),
+        ], null),
         backgroundColor: Colors.white,
         body: TabBarView(
           children: [
@@ -82,40 +76,39 @@ class _ProbeSettingState extends State<ProbeSetting> {
   Widget probSreen() {
     return Column(
       children: [
-        // ปุ่มเซฟการตั้งค่า Probe
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 0), 
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  print('🔘 เปิดแจ้งเตือน: ${isNotification ? "เปิด" : "ปิด"}');
-                  print('🌡 แจ้งอุณหภูมิช่วงเข้า: ${temEntryNoti ? "เปิด" : "ปิด"}');
-                  print('🔁 แจ้งเตือนทุกวัน: ${isDairyNoti ? "ใช่" : "ไม่ใช่"}');
-                  print('🕒 หน่วงการแจ้งครั้งแรก: $delayfirstNoti นาที');
-                  print('🔄 แจ้งเตือนซ้ำทุก: ${repeatNoti > 0 ? "$repeatNoti นาที" : "ไม่แจ้งซ้ำ"}');
-
-                  print('📆 วันที่และเวลาการแจ้งเตือน');
-                  print('1️⃣ วัน: $firstDayNoti $secondDayNoti $thirdDayNoti');
-                  print('เวลา: เวลา: ${firstTime.hour.toString().padLeft(2, '0')}:${firstTime.minute.toString().padLeft(2, '0')} น.\n${secondTime.hour.toString().padLeft(2, '0')}:${secondTime.minute.toString().padLeft(2, '0')} น.\n${thirdTime.hour.toString().padLeft(2, '0')}:${thirdTime.minute.toString().padLeft(2, '0')} น.');
-
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ บันทึกการตั้งค่าเรียบร้อยแล้ว'),behavior: SnackBarBehavior.floating,));
-                },
-                icon: const Icon(Icons.save,color: Colors.white,size: 30,),
-                label: const Text('บันทึก',style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold),),
-                style: ElevatedButton.styleFrom(backgroundColor: threeColor,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 12), elevation: 2,),
-              ),
-            ],
-          ),
-        ),
-
         // เนื้อหาการตั้งค่า
         Expanded(
           child: ListView(
             padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
             children: [
-              _buildMainTitle('🔔 ตั้งค่าการแจ้งเตือน'),
+              const SizedBox(height: 15,),
+              // ปุ่มเซฟการตั้งค่า Probe
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('🔔 ตั้งค่าการแจ้งเตือน', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: secColor),),
+
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      print('🔘 เปิดแจ้งเตือน: ${isNotification ? "เปิด" : "ปิด"}');
+                      print('🌡 แจ้งอุณหภูมิช่วงเข้า: ${temEntryNoti ? "เปิด" : "ปิด"}');
+                      print('🔁 แจ้งเตือนทุกวัน: ${isDairyNoti ? "ใช่" : "ไม่ใช่"}');
+                      print('🕒 หน่วงการแจ้งครั้งแรก: $delayfirstNoti นาที');
+                      print('🔄 แจ้งเตือนซ้ำทุก: ${repeatNoti > 0 ? "$repeatNoti นาที" : "ไม่แจ้งซ้ำ"}');
+
+                      print('📆 วันที่และเวลาการแจ้งเตือน');
+                      print('1️⃣ วัน: $firstDayNoti $secondDayNoti $thirdDayNoti');
+                      print('เวลา: เวลา: ${firstTime.hour.toString().padLeft(2, '0')}:${firstTime.minute.toString().padLeft(2, '0')} น.\n${secondTime.hour.toString().padLeft(2, '0')}:${secondTime.minute.toString().padLeft(2, '0')} น.\n${thirdTime.hour.toString().padLeft(2, '0')}:${thirdTime.minute.toString().padLeft(2, '0')} น.');
+
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ บันทึกการตั้งค่าเรียบร้อยแล้ว'),behavior: SnackBarBehavior.floating,));
+                    },
+                    icon: const Icon(Icons.save,color: Colors.white,size: 30,),
+                    label: const Text('บันทึก',style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold),),
+                    style: ElevatedButton.styleFrom(backgroundColor: threeColor,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8), elevation: 2,),
+                  ),
+                ],
+              ),
+
               _buildSettingCard([
                 _buildRowSetting(
                   icon: Icons.thermostat, 

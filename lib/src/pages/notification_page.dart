@@ -2,6 +2,7 @@ import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/pages/notification_settings_page.dart';
 import 'package:firstapp/src/widgets/notification_widget.dart';
 import 'package:firstapp/src/widgets/tab_item.dart';
+import 'package:firstapp/src/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -37,44 +38,17 @@ class _NotificationPageState extends State<NotificationPage> {
     {'title': 'โรงพยาบาลลาดพร้าว','message': 'PROBE9: แจ้งเตือนเมื่อความชื้นสูงเกิน 65%','datetime': '06:45 2025-05-02'},
     {'title': 'โรงพยาบาลเปาโล','message': 'PROBE10: แจ้งเตือนเมื่อความชื้นต่ำกว่า 25%','datetime': '08:20 2025-05-02'},
   ];
+  BarCustom tabbarBottomAppbar = BarCustom();
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back, color: Colors.white,),),
-          actions: [IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationSettingsPage())), icon: Icon(Icons.settings, color: Colors.white))],
-          title: Text('แจ้งเตือน', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
-          backgroundColor: secColor,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(40), 
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              child: Container(
-                height: 40,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.green.shade100),
-                child: TabBar(
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  dividerColor: Colors.transparent,
-                  indicator: BoxDecoration(
-                    color: threeColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  labelColor: Colors.white,
-                  unselectedLabelColor: const Color.fromARGB(255, 94, 94, 94),
-                  tabs: [
-                    TabItem(title: 'eTEMP/iTemS'),
-                    TabItem(title: 'Line Notify'),
-                  ]
-                ),
-              ),
-            ),
-          ),
-        ),
+        appBar: tabbarBottomAppbar.appBarCustom(context, 'แจ้งเตือน', [
+          TabItem(title: 'eTEMP/iTemS'),
+          TabItem(title: 'Line Notify'),
+        ], [IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationSettingsPage())), icon: Icon(Icons.settings, color: Colors.white, size: 30,)), const SizedBox(width: 20,)]),
         body: TabBarView(
           children: [
             SingleChildScrollView(

@@ -2,7 +2,7 @@ import 'package:firstapp/src/contants/contants.dart';
 import 'package:firstapp/src/pages/notification_page.dart';
 import 'package:firstapp/src/pages/profile_page.dart';
 import 'package:firstapp/src/widgets/icons_style.dart';
-import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
+import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:firstapp/src/widgets/webview_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
           padding: isTablet? 15 : 10,
           function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationPage(),)),
         ),
-        const SizedBox(width: 20,),
+        const SizedBox(width: 10,),
         PopupMenuButton<CustomPopupMenuItem>(
           initialValue: _selectedItem,
           color: Colors.white,

@@ -30,94 +30,71 @@ class DeviceDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(
         children: [
-          Card(
-            elevation: 3,
-            color: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Column(
+          SizedBox(
+            height: 260,
+            child: Card(
+              elevation: 3,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // อุณหภูมิ / ความชื้น
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(deviceData['name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 4),
-                        Text(
-                          'รหัส: ${deviceData['id']} • ${deviceData['location']}',
-                          style: TextStyle(color: Colors.grey[600], fontSize: 15),
+                        _buildSensorReading(
+                          icon: FontAwesomeIcons.temperatureHalf,
+                          label: 'อุณหภูมิ',
+                          value: '${deviceData['temperature']}°C',
+                          color: Colors.orange,
+                        ),
+                        _buildSensorReading(
+                          icon: FontAwesomeIcons.droplet,
+                          label: 'ความชื้น',
+                          value: '${deviceData['humidity']}%',
+                          color: Colors.blue,
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 12),
-          
-                  // สถานะ
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.circle,
-                        color: getStatusColor(deviceData['status']),
-                        size: 14,
-                      ),
-                      SizedBox(width: 6),
-                      Text(
-                        deviceData['status'],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: getStatusColor(deviceData['status']),
-                        ),
-                      )
-                    ],
-                  ),
-                  Divider(height: 24),
-          
-                  SizedBox(height: 10),
-                  // อุณหภูมิ / ความชื้น
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildSensorReading(
-                        icon: FontAwesomeIcons.temperatureHalf,
-                        label: 'อุณหภูมิ',
-                        value: '${deviceData['temperature']}°C',
-                        color: Colors.orange,
-                      ),
-                      _buildSensorReading(
-                        icon: FontAwesomeIcons.droplet,
-                        label: 'ความชื้น',
-                        value: '${deviceData['humidity']}%',
-                        color: Colors.blue,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 30),
-          
-                  // ช่วงค่าที่รองรับ
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildRangeColumn('ช่วงอุณหภูมิ', '${deviceData['lowest_temp']}°C - ${deviceData['highest_temp']}°C'),
-                      _buildRangeColumn('ช่วงความชื้น', '${deviceData['lowest_humi']}% - ${deviceData['highest_humi']}%'),
-                    ],
-                  ),
-                ],
+                    SizedBox(height: 30),
+            
+                    // ช่วงค่าที่รองรับ
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildRangeColumn('ช่วงอุณหภูมิ', '${deviceData['lowest_temp']}°C - ${deviceData['highest_temp']}°C'),
+                        _buildRangeColumn('ช่วงความชื้น', '${deviceData['lowest_humi']}% - ${deviceData['highest_humi']}%'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           SizedBox(height: 20),
-
+      
           // รายการแจ้งเตือนของอุปกรณ์นี้
-          Column(
-            children: [
-              for(var noti in notifications)
-                notificationWidget.buildNotificationWidget(noti['title'], noti['message'], noti['datetime'].split(' ')[0], noti['datetime'].split(' ')[1]),
-            ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  for (var noti in notifications)
+                    notificationWidget.buildNotificationWidget(
+                      noti['title'],
+                      noti['message'],
+                      noti['datetime'].split(' ')[0],
+                      noti['datetime'].split(' ')[1],
+                    ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

@@ -35,31 +35,7 @@ class CircleIcon extends StatelessWidget {
               }
             }),
           ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              icon!,
-              Positioned(
-                right: -4,
-                top: -4,
-                child: Container(
-                  padding: EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '1', // Replace with the actual notification count
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: icon!
         ),
       ],
     );
@@ -114,7 +90,7 @@ class CircleIconNoNumber extends StatelessWidget {
         ), // <-- Button color
         overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
           if (states.contains(MaterialState.pressed)) {
-            return threeColor; // <-- Splash color
+            return secColor; // <-- Splash color
           }
         }),
       ),

@@ -1,5 +1,5 @@
 import 'package:firstapp/src/contants/contants.dart';
-import 'package:firstapp/src/widgets/systemWidgetCustom.dart';
+import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/material.dart';
 
 class NotificationSettingsPage extends StatefulWidget {

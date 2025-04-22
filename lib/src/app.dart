@@ -35,7 +35,7 @@ class App extends StatelessWidget {
       },
       home: BlocProvider(
         create: (_) => LayoutBloc(),
-        child: const LoginPage(),
+        child: const HomePage(),
       ),
     );
   }
