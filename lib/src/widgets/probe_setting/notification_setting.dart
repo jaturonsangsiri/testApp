@@ -1,5 +1,5 @@
-import 'package:firstapp/src/bloc/probe_setting_bloc.dart';
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/bloc/probe/probe_setting_bloc.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/widgets/probe_setting/setting_sub_widget.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/material.dart';

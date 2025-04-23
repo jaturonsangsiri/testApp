@@ -1,4 +1,4 @@
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/widgets/profile/change_profile.dart';
 import 'package:firstapp/src/widgets/profile/input.dart';
 import 'package:firstapp/src/widgets/utils/responsive.dart';
@@ -57,7 +57,7 @@ class ProfilePage extends StatelessWidget {
                       height: posi[3],
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color.fromRGBO(125, 170, 242, 1).withOpacity(0.5),
+                        color: Color.fromRGBO(125, 170, 242, 1),
                       ),
                     ),
                   ),

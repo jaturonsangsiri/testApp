@@ -1,5 +1,6 @@
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Systemwidgetcustom {
   // UI โหลดข้อมูล
@@ -7,14 +8,14 @@ class Systemwidgetcustom {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.3), // พื้นหลังโปร่งใส
+      barrierColor: Colors.black, // พื้นหลังโปร่งใส
       builder: (context) {
         return Center(
           child: Container(
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.7),
+              color: Colors.black,
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.all(20),
@@ -62,14 +63,14 @@ class Systemwidgetcustom {
                   children: [
                     OutlinedButton(                                 
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             side: BorderSide(color: Colors.white, width: 1),
                           ),
                         ),
-                        side: MaterialStateProperty.all<BorderSide>(
+                        side: WidgetStateProperty.all<BorderSide>(
                           BorderSide(color: buttonColor),
                         ),
                       ),
@@ -81,8 +82,8 @@ class Systemwidgetcustom {
                     const SizedBox(width: 20,),
                     OutlinedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(bnColortwo),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        backgroundColor: WidgetStateProperty.all<Color>(bnColortwo),
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             side: BorderSide(color: bnColortwo, width: 1),
@@ -148,7 +149,7 @@ class Systemwidgetcustom {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: sixColor.withOpacity(0.5),
+            color: sixColor,
           ),
         ),
       ),
@@ -159,17 +160,19 @@ class Systemwidgetcustom {
   }
 
   // รูปโปรไฟล์ วงกลมมีรูปภาพอยู่ด้านใน
-  Widget circleImageButton(String picPath, double size, double picHeight, GestureTapCallback onTap) {
+  Widget circleImageButton(String picPath, double size, double picHeight, GestureTapCallback onTap, double radius) {
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(radius),
         child: SizedBox.fromSize(
           size: Size.fromRadius(size),
-          child: Image.asset(
-            picPath,
-            fit: BoxFit.cover,
-            height: picHeight,
+          child: CachedNetworkImage(
+            imageUrl: picPath,
+            placeholder: (context, url) => const CircularProgressIndicator(color: Colors.white70),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+            fit: BoxFit.fill,
+            height: 50,
             scale: 0.7,
           ),
         ),
@@ -189,7 +192,7 @@ class CustomSwitch extends StatefulWidget {
   final double height;
 
   const CustomSwitch({
-    Key? key,
+    super.key,
     required this.value,
     required this.onChanged,
     this.activeColor = Colors.deepOrange,
@@ -197,7 +200,7 @@ class CustomSwitch extends StatefulWidget {
     this.thumbColor = Colors.white,
     this.width = 60,
     this.height = 30,
-  }) : super(key: key);
+  });
 
   @override
   _CustomSwitchState createState() => _CustomSwitchState();

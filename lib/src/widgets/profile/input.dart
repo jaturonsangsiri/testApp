@@ -1,4 +1,4 @@
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';

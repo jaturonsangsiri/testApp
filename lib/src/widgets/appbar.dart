@@ -1,5 +1,5 @@
 import 'package:firstapp/src/app.dart';
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/widgets/tab_item.dart';
 import 'package:flutter/material.dart';
 

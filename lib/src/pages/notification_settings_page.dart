@@ -1,4 +1,4 @@
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +45,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
         },
         inactiveColor: Colors.grey.shade400,  
         thumbColor: Colors.white,
-        activeColor: threeColor.withOpacity(0.5),
+        activeColor: threeColor,
       ),
     );
   }

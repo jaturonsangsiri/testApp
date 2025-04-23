@@ -1,9 +1,7 @@
-import 'package:firstapp/src/pages/home_page.dart';
-import 'package:firstapp/src/pages/login_page.dart';
 import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firstapp/src/configs/route.dart' as custom_route;
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -13,6 +11,10 @@ class App extends StatelessWidget {
     // เรียกใช้เช็คขนาดหน้าจอเพื่อปรับ UI ตาม
     Responsive.init(context);
     return MaterialApp(
+      navigatorKey: custom_route.Route.navigatorKey,
+      scaffoldMessengerKey: custom_route.Route.scaffoldMessengerKey,
+      initialRoute: '/login',
+      routes: custom_route.Route.getAll(),
       // ไม่ให้แสดง banner debug สีแดง
       debugShowCheckedModeBanner: false,
       // ปรับให้แอปรองรับภาษาไทย
@@ -31,11 +33,6 @@ class App extends StatelessWidget {
         );
       },
       theme: ThemeData(scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255)),
-      // กำหนดเส้นทางหน้าต่างๆของแอป
-      routes: <String, WidgetBuilder> {
-        'Home': (BuildContext context) => HomePage(),
-      },
-      home: const LoginPage(),
     );
   }
 }

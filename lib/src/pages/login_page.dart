@@ -1,4 +1,4 @@
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/pages/register_page.dart';
 import 'package:firstapp/src/widgets/login/input.dart';
 import 'package:firstapp/src/widgets/utils/responsive.dart';

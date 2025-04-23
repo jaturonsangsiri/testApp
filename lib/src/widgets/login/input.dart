@@ -1,7 +1,10 @@
-import 'package:firstapp/src/contants/contants.dart';
-import 'package:firstapp/src/pages/home_page.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:firstapp/src/constants/contants.dart';
+import 'package:firstapp/src/services/api.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
+import 'package:firstapp/src/widgets/utils/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:firstapp/src/configs/route.dart' as custom_route;
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -18,10 +21,6 @@ class _InputFormState extends State<LoginForm> {
   // controllers form
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  // ชื่อผู้ใช้
-  String username = '';
-  // รหัสผ่าน
-  String password = '';
   // user pass focus node
   FocusNode userFocus = FocusNode();
   FocusNode passFocus = FocusNode();
@@ -30,6 +29,7 @@ class _InputFormState extends State<LoginForm> {
   bool isShowPass = true;
   // Widget System Custom
   final Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
+  final Api api = Api();
 
   // ------------- ฟังก์ชั่นกดแสดงรหัสผ่าน ------------
   void togglePassword() {
@@ -44,38 +44,36 @@ class _InputFormState extends State<LoginForm> {
 
   // ------------- ฟังก์ชั่นกดปุ่มเข้าสู๋ระบบ ------------
   void login() async {
+    _unfocus();
     systemwidgetcustom.loadingWidget(context);
 
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+        ShowSnackbar.snackbar(ContentType.failure, "ผิดพลาด", "โปรดกรอกข้อมูลให้ครบถ้วน");
+        return;
+      }
+
       // เช็คชื่อผู้ใช้และรหัสผ่าน
-      if (username == 'admin' && password == '1234') {
-        // ยกเลิก focus ช่องกรอกข้อมูล
-        _unfocus();
+      try {
+        final user = await api.checkLogin(usernameController.text, passwordController.text);
+        ShowSnackbar.snackbar(ContentType.success, "แจ้งเตือน", "ยินดีต้อนรับคุณ ${user.data!.name}");
 
-        // แสดงข้อมความยินดีต้อนรับหลังจากดีเลย์ 2 วินาที
-        await Future.delayed(const Duration(seconds: 1)).then((value) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ยินดีต้อนรับคุณ $username'), duration: const Duration(seconds: 2),));
-          // ปิดโหลดดิ้ง
-          Navigator.pop(context);
-
-          // รีเซ็ตค่า username และ password
+        setState(() {
           usernameController.clear();
           passwordController.clear();
-          username = '';
-          password = '';
 
-          // ถ้าชื่อผู้ใช้และรหัสผ่านถูกต้องให้ไปที่หน้า HomePage
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+          // ปิดโหลดดิ้ง
+          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, custom_route.Route.home, (route) => false);
         });
-      } else {
-        // ปิดโหลดดิ้ง
-        Navigator.pop(context);
-        // ยกเลิก focus ช่องกรอกข้อมูล
-        _unfocus();
-
-        // ถ้าชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้องให้แสดงข้อความผิดพลาด
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')));
+      } on Exception catch (e) {
+        setState(() {
+          // ปิดโหลดดิ้ง
+          Navigator.pop(context);
+          ShowSnackbar.snackbar(ContentType.failure, "ผิดพลาด", e.toString());
+        });
       }
     }
   }
@@ -91,6 +89,7 @@ class _InputFormState extends State<LoginForm> {
   void dispose() {
     usernameController.dispose();
     passwordController.dispose();
+    userFocus.dispose();
     passFocus.dispose();
     super.dispose();
   }
@@ -110,15 +109,12 @@ class _InputFormState extends State<LoginForm> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
-                  color: sixColor.withOpacity(0.5),
+                  color: sixColor,
                 ),
               ),
             ),
             controller: usernameController,
             focusNode: userFocus,
-            onSaved: (value) {
-              username = value!;
-            },
           ),
           const SizedBox(height: 20),
           TextFormField(
@@ -134,16 +130,13 @@ class _InputFormState extends State<LoginForm> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: BorderSide(
-                  color: sixColor.withOpacity(0.5),
+                  color: sixColor,
                 ),
               ),
             ),
             obscureText: isShowPass,
             controller: passwordController,
             focusNode: passFocus,
-            onSaved: (value) {
-              password = value!;
-            },
           ),
           const SizedBox(height: 30),
                       

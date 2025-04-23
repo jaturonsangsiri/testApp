@@ -1,4 +1,4 @@
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:flutter/material.dart';
 
 class SettingSubWidget {

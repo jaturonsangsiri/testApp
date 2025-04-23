@@ -1,4 +1,4 @@
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/widgets/home/device_lists.dart';
 import 'package:firstapp/src/widgets/home/select_dropdown.dart';
 import 'package:firstapp/src/widgets/options_menubar.dart';
@@ -15,53 +15,49 @@ class HomePage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              // แสดงหัวข้อชื่อผู้ใช้ รูปโปรไฟล์ และเมนูแจ้งเตือนและตั้งค่า
-              Container(
-                padding: EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                  top: 20,
-                  bottom: 12,
-                ),
-                width: Responsive.width,
-                height: Responsive.height * 0.15,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                  color: secColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TitleName(),
-                    OptionsMenubar(),
-                    const SizedBox(width: 5,),
-                  ],
-                ),
+          // แสดงหัวข้อชื่อผู้ใช้ รูปโปรไฟล์ และเมนูแจ้งเตือนและตั้งค่า
+          Container(
+            width: Responsive.width,
+            height: Responsive.height * 0.15,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
               ),
-      
-              // Randomized green circles
-              // สุ่มตำแหน่งวงกลมสีเขียว
-              for (int i = 0; i < 5; i++)
-                Positioned(
-                  top: Responsive.height * (0.05 + 0.15 * (i / 5)) + (Responsive.height * 0.1 * (i % 2 == 0 ? 1 : -1)),
-                  left: Responsive.width * (0.1 + 0.2 * (i / 5)) + (Responsive.width * 0.1 * (i % 2 == 0 ? -1 : 1)),
-                  child: Container(
-                  width: (40 + (10 * i)).toDouble(),
-                  height: (40 + (10 * i)).toDouble(),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromRGBO(125, 170, 242, 1).withOpacity(0.5),
+              color: secColor,
+            ),
+            child: Stack(
+              children: [
+                // Randomized green circles
+                // สุ่มตำแหน่งวงกลมสีเขียว
+                for (int i = 0; i < 5; i++)
+                  Positioned(
+                    top: Responsive.height * (0.05 + 0.15 * (i / 5)) + (Responsive.height * 0.1 * (i % 2 == 0 ? 1 : -1)),
+                    left: Responsive.width * (0.1 + 0.2 * (i / 5)) + (Responsive.width * 0.1 * (i % 2 == 0 ? -1 : 1)),
+                    child: Container(
+                    width: (40 + (10 * i)).toDouble(),
+                    height: (40 + (10 * i)).toDouble(),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromRGBO(125, 170, 242, 1),
+                    ),
+                    child: Text(''),
+                    ),
                   ),
-                  child: Text(''),
+
+                SafeArea(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TitleName(),
+                      OptionsMenubar(),
+                      const SizedBox(width: 5,),
+                    ],
                   ),
                 ),
-            ],
+              ],
+            ),
           ),
             
           // ตัวเลือกโรงพยาบาลและวอด

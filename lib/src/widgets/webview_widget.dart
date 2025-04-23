@@ -1,4 +1,4 @@
-import 'package:firstapp/src/contants/contants.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -54,7 +54,7 @@ class _WebviewWidgetState extends State<WebviewWidget> {
           width: 120,
           height: 120,
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.7),
+            color: Colors.black,
             borderRadius: BorderRadius.circular(16),
           ),
           padding: const EdgeInsets.all(20),
