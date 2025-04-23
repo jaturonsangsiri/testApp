@@ -1,6 +1,6 @@
-import 'package:firstapp/src/bloc/layout_bloc.dart';
 import 'package:firstapp/src/pages/home_page.dart';
 import 'package:firstapp/src/pages/login_page.dart';
+import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,6 +10,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // เรียกใช้เช็คขนาดหน้าจอเพื่อปรับ UI ตาม
+    Responsive.init(context);
     return MaterialApp(
       // ไม่ให้แสดง banner debug สีแดง
       debugShowCheckedModeBanner: false,
@@ -33,10 +35,7 @@ class App extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         'Home': (BuildContext context) => HomePage(),
       },
-      home: BlocProvider(
-        create: (_) => LayoutBloc(),
-        child: const HomePage(),
-      ),
+      home: const LoginPage(),
     );
   }
 }

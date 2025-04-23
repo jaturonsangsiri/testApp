@@ -1,4 +1,5 @@
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
+import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';
 
 class TitleName extends StatelessWidget {
@@ -7,7 +8,6 @@ class TitleName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isTablet = MediaQuery.of(context).size.width > 700 ? true : false;
     return Row(
       children: [
         Container(
@@ -20,12 +20,12 @@ class TitleName extends StatelessWidget {
           child: systemwidgetcustom.circleImageButton("assets/images/app-logo.png", 18, 50, () {}),
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: Responsive.width * 0.5,
           child: Text(
             'Test User',
             style: TextStyle(
               fontWeight: FontWeight.w900,
-              fontSize: isTablet ? 28 : 22,
+              fontSize: Responsive.isTablet ? 28 : 22,
               color: Colors.white,
             ),
             overflow: TextOverflow.ellipsis,

@@ -3,6 +3,7 @@ import 'package:firstapp/src/pages/notification_page.dart';
 import 'package:firstapp/src/pages/profile_page.dart';
 import 'package:firstapp/src/widgets/icons_style.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
+import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:firstapp/src/widgets/webview_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +19,6 @@ class OptionsMenubar extends StatefulWidget {
 
 class _OptionsMenubarState extends State<OptionsMenubar> {
   late CustomPopupMenuItem? _selectedItem;
-  // เช็คว่าเป็นแท็บเล็ตหรือไม่
-  bool isTablet = false;
   Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
 
   @override
@@ -30,21 +29,19 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    width > 600? isTablet = true : isTablet = false;
     return Row(
       children: [
         CircleIcon(
-          icon: Icon(Icons.notifications, color: Colors.white, size: isTablet? 35 : 30),
+          icon: Icon(Icons.notifications, color: Colors.white, size: Responsive.isTablet? 35 : 30),
           colorbg: primaryColor,
-          padding: isTablet? 15 : 10,
+          padding: Responsive.isTablet? 15 : 10,
           function: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationPage(),)),
         ),
         const SizedBox(width: 10,),
         PopupMenuButton<CustomPopupMenuItem>(
           initialValue: _selectedItem,
           color: Colors.white,
-          child: Icon(Icons.settings, color: Colors.white, size: isTablet? 35 : 30),
+          child: Icon(Icons.settings, color: Colors.white, size: Responsive.isTablet? 35 : 30),
           onSelected: (CustomPopupMenuItem item) {
             setState(() {
               _selectedItem = item;

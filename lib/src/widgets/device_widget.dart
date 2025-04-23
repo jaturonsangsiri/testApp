@@ -1,7 +1,7 @@
 // Widget ของอุปกรณ์ที่แสดงในแอปพลิเคชั่น
-import 'package:firstapp/src/widgets/notification_widget.dart';
+import 'package:firstapp/src/widgets/device/noti.dart';
+import 'package:firstapp/src/widgets/device/temp_info.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DeviceStatus extends StatelessWidget {
   final Color bgColor;
@@ -22,16 +22,12 @@ class DeviceStatus extends StatelessWidget {
 
 // แสดงข้อมูลรายละเอียดของอุปกรณ์หน้า DeviceDetailWidget_page.dart
 class DeviceDetailWidget extends StatelessWidget {
-  final Map<String, dynamic> deviceData;
-  final List notifications;
-  DeviceDetailWidget({super.key, this.deviceData = const {}, this.notifications = const []});
-
-  NotificationWidget notificationWidget = NotificationWidget();
+  const DeviceDetailWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(5),
       child: Column(
         children: [
           SizedBox(
@@ -42,97 +38,15 @@ class DeviceDetailWidget extends StatelessWidget {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // อุณหภูมิ / ความชื้น
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildSensorReading(
-                          icon: FontAwesomeIcons.temperatureHalf,
-                          label: 'อุณหภูมิ',
-                          value: '${deviceData['temperature']}°C',
-                          color: Colors.orange,
-                        ),
-                        _buildSensorReading(
-                          icon: FontAwesomeIcons.droplet,
-                          label: 'ความชื้น',
-                          value: '${deviceData['humidity']}%',
-                          color: Colors.blue,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-            
-                    // ช่วงค่าที่รองรับ
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildRangeColumn('ช่วงอุณหภูมิ', '${deviceData['lowest_temp']}°C - ${deviceData['highest_temp']}°C'),
-                        _buildRangeColumn('ช่วงความชื้น', '${deviceData['lowest_humi']}% - ${deviceData['highest_humi']}%'),
-                      ],
-                    ),
-                  ],
-                ),
+                child: TempInfo(),
               ),
             ),
           ),
           SizedBox(height: 20),
-      
           // รายการแจ้งเตือนของอุปกรณ์นี้
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  for (var noti in notifications)
-                    notificationWidget.buildNotificationWidget(
-                      noti['title'],
-                      noti['message'],
-                      noti['datetime'].split(' ')[0],
-                      noti['datetime'].split(' ')[1],
-                    ),
-                ],
-              ),
-            ),
-          ),
+          Noti(),
         ],
       ),
-    );
-  }
-
-  // Widget สำหรับสดงข้อมูลอุณหภูมิและความชื้นของอุปกรณ์
-  Widget _buildSensorReading({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
-    return Column(
-      children: [
-        Icon(icon, color: color, size: 50),
-        SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Widget สำหรับแสดงช่วงค่าที่รองรับ
-  Widget _buildRangeColumn(String title, String value) {
-    return Column(
-      children: [
-        Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
-        SizedBox(height: 4),
-        Text(value, style: TextStyle(fontSize: 18, color: Colors.grey[700])),
-      ],
     );
   }
 

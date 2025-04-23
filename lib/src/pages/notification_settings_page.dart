@@ -34,14 +34,14 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
       trailing: CustomSwitch(
         value: setting['value'],
         onChanged: (val) {
-          String txt = setting['value']?'ปิด':'เปิด';
-          systemwidgetcustom.showDialogConfirm(context, '$txtการตั้งค่า', 'ท่านต้องการ$txtการตั้งค่าหรือไม่?', () {
-            // ปิดทั้ง Dialog และแก้ไข UI การตั้งค่า
-            setState(() {
-              setting['value'] = val;
-            });
-            Navigator.pop(context);
-          }, primaryColor, const Color.fromRGBO(255, 99, 71, 1));
+          // String txt = setting['value']?'ปิด':'เปิด';
+          // systemwidgetcustom.showDialogConfirm(context, '$txtการตั้งค่า', 'ท่านต้องการ$txtการตั้งค่าหรือไม่?', () {
+          //   // ปิดทั้ง Dialog และแก้ไข UI การตั้งค่า
+          //   Navigator.pop(context);
+          // }, primaryColor, const Color.fromRGBO(255, 99, 71, 1));
+          setState(() {
+            setting['value'] = val;
+          });
         },
         inactiveColor: Colors.grey.shade400,  
         thumbColor: Colors.white,
