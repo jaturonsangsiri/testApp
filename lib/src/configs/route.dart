@@ -17,7 +17,7 @@ class Route {
   static final Map<String, WidgetBuilder> _route = {
     home: (context) => const HomePage(),
     login: (context) => const LoginPage(),
-    notification: (context) => const NotificationPage(),
+    notification: (context) => NotificationPage(),
     register: (context) => const RegisterPage(),
   };
 }

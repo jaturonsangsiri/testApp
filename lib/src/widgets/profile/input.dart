@@ -1,7 +1,10 @@
+import 'package:firstapp/src/bloc/user/users_bloc.dart';
 import 'package:firstapp/src/constants/contants.dart';
+import 'package:firstapp/src/widgets/icons_style.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileForm extends StatefulWidget {
   const ProfileForm({super.key});
@@ -13,7 +16,7 @@ class ProfileForm extends StatefulWidget {
 class _ProfileFormState extends State<ProfileForm> {
   Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
   // ชื่อผู้ใช้
-  String username = 'Jaturon Sangsiri';
+  String username = '';
   // ---------- Controllers ----------
   TextEditingController nameController = TextEditingController();
   TextEditingController oldPasswrodController = TextEditingController();
@@ -76,29 +79,52 @@ class _ProfileFormState extends State<ProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20,),
-          Text('ชื่อผู้ใช้', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
-          systemwidgetcustom.normalTextFormField(hintText: 'ชื่อผู้ใช้', controller: nameController, keyboardType: TextInputType.text, valueSave: username, focus: nameFocusNode),
-          const SizedBox(height: 10,),
-          ElevatedButton(onPressed: () {}, style: ElevatedButton.styleFrom(backgroundColor: secColor), child: const Text('บันทึก',style: TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold),),),
-          const SizedBox(height: 25,),
-          Text('รหัสผ่านเก่า', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
-          systemwidgetcustom.normalTextFormField(hintText: 'รหัสผ่านเก่า', controller: oldPasswrodController, keyboardType: TextInputType.text, valueSave: '', focus: oldPasswrodFocusNode),
-          const SizedBox(height: 10,),
-          Text('รหัสผ่านใหม่', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
-          systemwidgetcustom.normalTextFormField(hintText: 'รหัสผ่านใหม่', controller: newPasswrodController, keyboardType: TextInputType.text, valueSave: '', focus: newPasswrodFocusNode),
-          const SizedBox(height: 10,),
-          Text('ยืนยันรหัสผ่านใหม่', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
-          systemwidgetcustom.normalTextFormField(hintText: 'ยืนยันรหัสผ่านใหม่', controller: confirmPasswrodController, keyboardType: TextInputType.text, valueSave: '', focus: confirmPasswrodNode),
-          const SizedBox(height: 10,),
-          ElevatedButton(onPressed: () {}, style: ElevatedButton.styleFrom(backgroundColor: secColor), child: const Text('บันทึก',style: TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold),),),
-        ],
-      ),
+    return BlocBuilder<UsersBloc, UsersState>(
+      builder: (context, snapshot) {
+        nameController.text = snapshot.username;
+        return Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('เปลี่ยนตีมแอป', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
+              Row(
+                children: [
+                  CircleIcon(
+                    icon: Icon(Icons.light_mode, color: Colors.white, size: Responsive.isTablet? 35 : 30),
+                    colorbg: primaryColor,
+                    padding: Responsive.isTablet? 15 : 10,
+                    function: () {},
+                  ),
+                  SizedBox(width: 20,),
+                  CircleIcon(
+                    icon: Icon(Icons.dark_mode, color: Colors.white, size: Responsive.isTablet? 35 : 30),
+                    colorbg: primaryColor,
+                    padding: Responsive.isTablet? 15 : 10,
+                    function: () {},
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20,),
+              Text('ชื่อผู้ใช้', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
+              systemwidgetcustom.normalTextFormField(hintText: 'ชื่อผู้ใช้', controller: nameController, keyboardType: TextInputType.text, valueSave: username, focus: nameFocusNode),
+              const SizedBox(height: 10,),
+              ElevatedButton(onPressed: () {}, style: ElevatedButton.styleFrom(backgroundColor: secColor), child: const Text('บันทึก',style: TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold),),),
+              const SizedBox(height: 25,),
+              Text('รหัสผ่านเก่า', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
+              systemwidgetcustom.normalTextFormField(hintText: 'รหัสผ่านเก่า', controller: oldPasswrodController, keyboardType: TextInputType.text, valueSave: '', focus: oldPasswrodFocusNode),
+              const SizedBox(height: 10,),
+              Text('รหัสผ่านใหม่', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
+              systemwidgetcustom.normalTextFormField(hintText: 'รหัสผ่านใหม่', controller: newPasswrodController, keyboardType: TextInputType.text, valueSave: '', focus: newPasswrodFocusNode),
+              const SizedBox(height: 10,),
+              Text('ยืนยันรหัสผ่านใหม่', style: TextStyle(fontSize: Responsive.isTablet ? 20 : 18, fontWeight: FontWeight.bold),),
+              systemwidgetcustom.normalTextFormField(hintText: 'ยืนยันรหัสผ่านใหม่', controller: confirmPasswrodController, keyboardType: TextInputType.text, valueSave: '', focus: confirmPasswrodNode),
+              const SizedBox(height: 10,),
+              ElevatedButton(onPressed: () {}, style: ElevatedButton.styleFrom(backgroundColor: secColor), child: const Text('บันทึก',style: TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold),),),
+            ],
+          ),
+        );
+      },
     );
   }
 }

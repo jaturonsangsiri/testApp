@@ -1,5 +1,6 @@
 import 'package:firstapp/src/app.dart';
-import 'package:firstapp/src/bloc/home/home_bloc.dart';
+import 'package:firstapp/src/bloc/device/devices_bloc.dart';
+import 'package:firstapp/src/bloc/notification/notification_bloc.dart';
 import 'package:firstapp/src/bloc/probe/probe_setting_bloc.dart';
 import 'package:firstapp/src/bloc/user/users_bloc.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,9 @@ void main() async {
   // ดึง Bloc ทั้งหมดมา
   // Bloc ตัวตั้งค่าโพรบ
   final probeBloc = BlocProvider<ProbeSettingBloc>(create: (context) => ProbeSettingBloc());
-  final homeBloc = BlocProvider<HomeBloc>(create: (context) => HomeBloc());
+  final devicesBloc = BlocProvider<DevicesBloc>(create: (context) => DevicesBloc());
   final userBloc = BlocProvider<UsersBloc>(create: (context) => UsersBloc());
+  final notificationBloc = BlocProvider(create: (context) => NotificationBloc());
 
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // จัดการเกี่ยวกับหน้า Splash Screen (หน้าโหลดก่อนเข้าแอป)
@@ -21,7 +23,7 @@ void main() async {
   FlutterNativeSplash.remove();
   runApp(
     MultiBlocProvider(
-      providers: [probeBloc, homeBloc, userBloc], 
+      providers: [probeBloc, devicesBloc, userBloc, notificationBloc], 
       child: const App()
     ),
   );

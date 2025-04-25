@@ -8,7 +8,7 @@ class Systemwidgetcustom {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black, // พื้นหลังโปร่งใส
+      barrierColor: Colors.black.withValues(alpha: 0.5), // พื้นหลังโปร่งใส
       builder: (context) {
         return Center(
           child: Container(

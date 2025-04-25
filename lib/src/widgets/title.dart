@@ -43,7 +43,7 @@ class _TitleNameState extends State<TitleName> {
             //context.read<DevicesBloc>().add(GetLegacyDevices(snapshot.ward));
             //context.read<DevicesBloc>().add(SetHospitalData(snapshot.hospitalId, snapshot.ward, snapshot.type));
           }
-          print("รูปปปปปปปปปปปปปปปปปปปปปปปปป : ${snapshot.pic}");
+          //print("รูปปปปปปปปปปปปปปปปปปปปปปปปป : ${snapshot.pic}");
 
           return Row(
             children: [

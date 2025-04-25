@@ -22,58 +22,60 @@ class ProfilePage extends StatelessWidget {
         centerTitle: true,  
         backgroundColor: secColor,
       ),
-      body: Column(
-        children: [
-          Container(
-            color: secColor,
-            width: Responsive.width,
-            height: 200,
-            child: Stack(
-              clipBehavior: Clip.none, // สำคัญ! ปรับเพื่อให้รูปโปรไฟล์ล้นออกมาได้
-              children: [
-                // กล่องสีขาวอยู่ด้านล่างสุดของ Stack
-                Positioned(
-                  bottom: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(100),
-                      ),
-                    ),
-                    width: Responsive.width,
-                    height: 80,
-                  ),
-                ),
-      
-                // Randomized green circles
-                // สุ่มตำแหน่งวงกลม
-                for (var posi in positionedList)
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              color: secColor,
+              width: Responsive.width,
+              height: 200,
+              child: Stack(
+                clipBehavior: Clip.none, // สำคัญ! ปรับเพื่อให้รูปโปรไฟล์ล้นออกมาได้
+                children: [
+                  // กล่องสีขาวอยู่ด้านล่างสุดของ Stack
                   Positioned(
-                    top: posi[0],  
-                    left: posi[1],
+                    bottom: 0,
                     child: Container(
-                      width: posi[2],
-                      height: posi[3],
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color.fromRGBO(125, 170, 242, 1),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(100),
+                        ),
                       ),
+                      width: Responsive.width,
+                      height: 80,
                     ),
                   ),
-      
-      
-                // รูปโปรไฟล์แบบลอยทับกล่องสีขาว
-                ChangeProfile(),
-              ],
+        
+                  // Randomized green circles
+                  // สุ่มตำแหน่งวงกลม
+                  for (var posi in positionedList)
+                    Positioned(
+                      top: posi[0],  
+                      left: posi[1],
+                      child: Container(
+                        width: posi[2],
+                        height: posi[3],
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color.fromRGBO(125, 170, 242, 1),
+                        ),
+                      ),
+                    ),
+        
+        
+                  // รูปโปรไฟล์แบบลอยทับกล่องสีขาว
+                  ChangeProfile(),
+                ],
+              ),
             ),
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: ProfileForm(),
-          ),
-        ],
+            
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: ProfileForm(),
+            ),
+          ],
+        ),
       ),
     );
   }

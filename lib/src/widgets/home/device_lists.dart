@@ -1,21 +1,46 @@
-import 'package:firstapp/src/bloc/home/home_bloc.dart';
+import 'dart:async';
+
+import 'package:firstapp/src/bloc/device/devices_bloc.dart';
+import 'package:firstapp/src/configs/url.dart';
 import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/pages/device_detail_page.dart';
-import 'package:firstapp/src/widgets/device_widget.dart';
-import 'package:firstapp/src/widgets/icons_style.dart';
+import 'package:firstapp/src/widgets/home/subtitle_list.dart';
 import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
-class DeviceLists extends StatelessWidget {
+class DeviceLists extends StatefulWidget {
   const DeviceLists({super.key});
 
   @override
+  State<DeviceLists> createState() => _DeviceListsState();
+}
+
+class _DeviceListsState extends State<DeviceLists> {
+  Timer? _timer;
+  late String ward;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
+      context.read<DevicesBloc>().add(GetDevices(ward));
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer!.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    DeviceDetailWidget deviceDetail = DeviceDetailWidget();
     return Expanded(
-      child: BlocBuilder<HomeBloc, HomeState>(
+      child: BlocBuilder<DevicesBloc, DevicesState>(
         builder: (context, state) {
+          ward = state.wardId;
           return state.devices.isEmpty? Center(child: Text('ไม่มีข้อมูล',style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, color: fourColor),)) : ListView.builder(
             padding: EdgeInsets.only(top: 0,bottom: 0),
             itemCount: state.devices.length,
@@ -38,26 +63,17 @@ class DeviceLists extends StatelessWidget {
                         color: fourColor,
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: Text(''),
+                      child: CachedNetworkImage(
+                        imageUrl: state.devices[i].positionPic ?? URL.DEFAULT_PIC,
+                        placeholder: (context, url) => const CircularProgressIndicator(color: Colors.white70),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                        fit: BoxFit.fill,
+                        height: 50,
+                        scale: 0.7,
+                      ),
                     ),
-                    title: Text(state.devices[i]['name'], style: TextStyle(fontSize: Responsive.isTablet? 18 : 14, fontWeight: FontWeight.w700),),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('ID: ${state.devices[i]['id']}', style: TextStyle(fontSize: Responsive.isTablet? 18 : 14),),
-                        Text('-', style: TextStyle(fontSize: Responsive.isTablet? 18 : 14),),  
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            IconText(icon: Icons.percent, text: '25', color: Colors.black, size: Responsive.isTablet? 17 : 15, fontSize: Responsive.isTablet? 16 : 13,),
-                            IconText(icon: Icons.person, text: '1', color: Colors.black, size: Responsive.isTablet? 17 : 15, fontSize: Responsive.isTablet? 16 : 13,),
-                            IconText(icon: Icons.celebration, text: '10', color: Colors.black, size: Responsive.isTablet? 17 : 15, fontSize: Responsive.isTablet? 16 : 13,),
-                            IconText(icon: Icons.access_alarm, text: '2', color: Colors.black, size: Responsive.isTablet? 17 : 15, fontSize: Responsive.isTablet? 16 : 13,),
-                            DeviceStatus(bgColor: deviceDetail.getStatusColor(state.devices[i]['status']), textColor: Colors.white, status: state.devices[i]['status'], fontSize: Responsive.isTablet? 15 : 12)                                     
-                          ],  
-                        ),
-                      ],
-                    ),
+                    title: Text(state.devices[i].name!, style: TextStyle(fontSize: Responsive.isTablet? 18 : 14, fontWeight: FontWeight.w700),),
+                    subtitle: SubtitleList(deviceInfo: state.devices[i]),
                   ),
                 ),
               );
