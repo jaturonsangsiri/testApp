@@ -31,6 +31,7 @@ class _NotiState extends State<Noti> {
           children: [
             for (var noti in notifications)
               notificationWidget.buildNotificationWidget(
+                context,
                 noti['title'],
                 noti['message'],
                 noti['datetime'].split(' ')[0],

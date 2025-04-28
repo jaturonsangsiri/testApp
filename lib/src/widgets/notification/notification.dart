@@ -47,6 +47,7 @@ class _NotificationListState extends State<NotificationList> {
             separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.grey[300], height: Responsive.isTablet ? 3 : 1),
             itemBuilder: (BuildContext context, int index) {
               return notificationWidget.buildNotificationWidget(
+                context,
                 notiState.notifications[index].device!.name!,
                 notiState.notifications[index].detail!,
                 notiState.notifications[index].createAt.toString().substring(11, 16),
