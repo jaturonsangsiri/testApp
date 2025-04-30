@@ -155,4 +155,14 @@ class ConfigStorage {
     await setLegacyNotification(false);
     await prefs.clear();
   }
+
+  Future<bool?> getTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool("theme_app");
+  }
+
+  Future<void> setTheme(bool theme) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("theme_app", theme);
+  }
 }

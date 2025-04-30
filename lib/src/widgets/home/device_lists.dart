@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firstapp/src/bloc/device/devices_bloc.dart';
+import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
 import 'package:firstapp/src/configs/url.dart';
 import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/pages/device_detail_page.dart';
@@ -38,48 +39,47 @@ class _DeviceListsState extends State<DeviceLists> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<DevicesBloc, DevicesState>(
-        builder: (context, state) {
-          ward = state.wardId;
-          return state.devices.isEmpty? Center(child: Text('ไม่มีข้อมูล',style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, color: fourColor),)) : ListView.builder(
-            padding: EdgeInsets.only(top: 0,bottom: 0),
-            itemCount: state.devices.length,
-            itemBuilder: (context, i) {
-              return GestureDetector(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DevicedetailPage())),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  //elevation: 8,
-                  color: Colors.white,
-                  shadowColor: Color.fromRGBO(181, 181, 181, 0.5),
-                  child: ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(0),
-                      width: Responsive.isTablet? 80 : 70,
-                      height: Responsive.isTablet? 110 : 100,
-                      decoration: BoxDecoration(
-                        color: fourColor,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: state.devices[i].positionPic ?? URL.DEFAULT_PIC,
-                        placeholder: (context, url) => const CircularProgressIndicator(color: Colors.white70),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                        fit: BoxFit.fill,
-                        height: 50,
-                        scale: 0.7,
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, themeState) {
+          return BlocBuilder<DevicesBloc, DevicesState>(
+            builder: (context, state) {
+              ward = state.wardId;
+              return state.devices.isEmpty? Center(child: Text('ไม่มีข้อมูล',style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600, color: fourColor),)) : ListView.builder(
+                padding: EdgeInsets.only(top: 0,bottom: 0),
+                itemCount: state.devices.length,
+                itemBuilder: (context, i) {
+                  return GestureDetector(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DevicedetailPage())),
+                    child: Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      //elevation: 8,
+                      color: themeState.themeApp? boxColorDark : Colors.white,
+                      shadowColor: Color.fromRGBO(181, 181, 181, 0.5),
+                      child: ListTile(
+                        leading: Container(
+                          padding: EdgeInsets.all(0),
+                          width: Responsive.isTablet? 80 : 70,
+                          height: Responsive.isTablet? 110 : 100,
+                          decoration: BoxDecoration(color: fourColor, borderRadius: BorderRadius.circular(15)),
+                          child: CachedNetworkImage(
+                            imageUrl: state.devices[i].positionPic ?? URL.DEFAULT_PIC,
+                            placeholder: (context, url) => const CircularProgressIndicator(color: Colors.white70),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                            fit: BoxFit.fill,
+                            height: 50,
+                            scale: 0.7,
+                          ),
+                        ),
+                        title: Text(state.devices[i].name!, style: TextStyle(fontSize: Responsive.isTablet? 18 : 14, fontWeight: FontWeight.w700, color: themeState.themeApp? Colors.white : Colors.black)),
+                        subtitle: SubtitleList(deviceInfo: state.devices[i]),
                       ),
                     ),
-                    title: Text(state.devices[i].name!, style: TextStyle(fontSize: Responsive.isTablet? 18 : 14, fontWeight: FontWeight.w700),),
-                    subtitle: SubtitleList(deviceInfo: state.devices[i]),
-                  ),
-                ),
+                  );
+                },
               );
             },
           );
-        },
+        }, 
       )
     );
   }

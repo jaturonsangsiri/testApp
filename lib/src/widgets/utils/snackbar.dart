@@ -10,11 +10,7 @@ class ShowSnackbar {
       duration: const Duration(seconds: 2),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
-      content: AwesomeSnackbarContent(
-        title: title,
-        message: message,
-        contentType: type,
-      ),
+      content: AwesomeSnackbarContent(title: title, message: message, contentType: type),
     );
     custom_route.Route.scaffoldMessengerKey.currentState!
       ..hideCurrentSnackBar()

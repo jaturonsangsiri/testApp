@@ -5,18 +5,12 @@ import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChangeProfile extends StatefulWidget {
+class ChangeProfile extends StatelessWidget {
   const ChangeProfile({super.key});
 
   @override
-  State<ChangeProfile> createState() => _ChangeProfileState();
-}
-
-class _ChangeProfileState extends State<ChangeProfile> {
-  Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
-
-  @override
   Widget build(BuildContext context) {
+    Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
     return BlocBuilder<UsersBloc, UsersState>(
       builder: (context, snapshot) {
         return Align(  
@@ -31,7 +25,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
                 Positioned(
                   bottom: 0,
                   right: 0,
-                  child: CircleIconNoNumber(
+                  child: CircleIcon(
                     icon: const Icon(Icons.camera_alt, color: Colors.white, size: 25),
                     colorbg: primaryColor,
                     padding: 1,

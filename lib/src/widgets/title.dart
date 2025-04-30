@@ -50,23 +50,12 @@ class _TitleNameState extends State<TitleName> {
               Container(
                 padding: const EdgeInsets.all(2),
                 margin: const EdgeInsets.only(right: 8, left: 8), // Border width
-                decoration: BoxDecoration(
-                  color: Colors.white60,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                decoration: BoxDecoration(color: Colors.white60, borderRadius: BorderRadius.circular(10)),
                 child: systemwidgetcustom.circleImageButton(snapshot.pic, 18, 50, () {},10),
               ),
               SizedBox(
                 width: Responsive.width * 0.5,
-                child: Text(
-                  snapshot.username,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: Responsive.isTablet ? 28 : 22,
-                    color: Colors.white,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: Text(snapshot.username, style: TextStyle(fontWeight: FontWeight.w900, fontSize: Responsive.isTablet ? 28 : 22, color: Colors.white), overflow: TextOverflow.ellipsis),
               ),
             ],
           );

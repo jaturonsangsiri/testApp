@@ -16,7 +16,6 @@ class ProbeSetting extends StatelessWidget {
           TabItem(title: 'โพรบ 1'),
           TabItem(title: 'โพรบ 2'),
         ], null),
-        backgroundColor: Colors.white,
         body: TabBarView(
           children: [
             Setting(),

@@ -1,6 +1,8 @@
+import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
 import 'package:firstapp/src/constants/contants.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Systemwidgetcustom {
   // UI โหลดข้อมูล
@@ -14,15 +16,9 @@ class Systemwidgetcustom {
           child: Container(
             width: 120,
             height: 120,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(16),
-            ),
+            decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(16)),
             padding: const EdgeInsets.all(20),
-            child: const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              strokeWidth: 6.0,
-            ),
+            child: const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white), strokeWidth: 6.0),
           ),
         );
       },
@@ -30,14 +26,7 @@ class Systemwidgetcustom {
   }
 
   // แสดง Dialog ถามผู้ใช้มีตอบ ใช่หรือไม่
-  Future showDialogConfirm(
-      BuildContext context,
-      String title,
-      String? content,
-      Function onConfirm,
-      Color buttonColor,
-      Color bnColortwo
-    ) async {
+  Future showDialogConfirm(BuildContext context, String title, String? content, Function onConfirm, Color buttonColor, Color bnColortwo,) async {
     return showDialog(
       context: context,
       barrierDismissible: false, // ไม่ให้ปิด Dialog โดยการคลิกนอก Dialog
@@ -47,53 +36,31 @@ class Systemwidgetcustom {
             height: 230,
             width: 300,
             padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-            ),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 170, 168, 168),decoration: TextDecoration.none),),
-                const SizedBox(height: 30,),
-                Text(content!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black,decoration: TextDecoration.none),),
+                Text(title, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 170, 168, 168), decoration: TextDecoration.none)),
+                const SizedBox(height: 30),
+                Text(content!, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black,decoration: TextDecoration.none)),
                 Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    OutlinedButton(                                 
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: Colors.white, width: 1),
-                          ),
-                        ),
-                        side: WidgetStateProperty.all<BorderSide>(
-                          BorderSide(color: buttonColor),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop(); // ปิด Dialog
-                      },
-                      child: Text('ยกเลิก', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: buttonColor),),
-                    ),
-                    const SizedBox(width: 20,),
                     OutlinedButton(
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(bnColortwo),
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side: BorderSide(color: bnColortwo, width: 1),
-                          ),
-                        ),
+                        backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: Colors.white, width: 1))),
+                        side: WidgetStateProperty.all<BorderSide>(BorderSide(color: buttonColor)),
                       ),
-                      onPressed: () {
-                        onConfirm(); // เรียกฟังก์ชันที่ส่งเข้ามา
-                      },
-                      child: Text('ตกลง', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white),),
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text('ยกเลิก', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: buttonColor)),
+                    ),
+                    const SizedBox(width: 20),
+                    OutlinedButton(
+                      style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(bnColortwo,), shape: WidgetStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: bnColortwo, width: 1)))),
+                      onPressed: () => onConfirm(),
+                      child: Text('ตกลง', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white)),
                     ),
                   ],
                 ),
@@ -110,11 +77,8 @@ class Systemwidgetcustom {
     return Container(
       width: 100,
       height: 50,
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(child: Text(text, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),),),
+      decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(10)),
+      child: Center(child: Text(text, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold))),
     );
   }
 
@@ -122,45 +86,36 @@ class Systemwidgetcustom {
   Widget textWithIcon(IconData icon, String text, Color color, double size) {
     return Row(
       children: [
-        Icon(icon, color: color,size: size * 1.5,),
-        const SizedBox(width: 5,),
-        Text(text, style: TextStyle(fontSize: size,color: color),)
+        Icon(icon, color: color, size: size * 1.5),
+        const SizedBox(width: 5),
+        Text(text, style: TextStyle(fontSize: size, color: color)),
       ],
     );
   }
 
   // Widget TextFormField
-  Widget normalTextFormField({
-    required String hintText,
-    required TextEditingController controller,
-    required TextInputType keyboardType,
-    required String valueSave,
-    required FocusNode focus,
-  }) {
-    return TextFormField(
-      focusNode: focus,
-      controller: controller,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        hintText: hintText,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(
-            color: sixColor,
+  Widget normalTextFormField({required String hintText, required TextEditingController controller, required TextInputType keyboardType, required String valueSave, required FocusNode focus, required Color hintColor}) {
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        return TextFormField(
+          style: TextStyle(color: themeState.themeApp? Colors.white70 : Colors.black),
+          focusNode: focus,
+          controller: controller,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(color: hintColor),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: sixColor)),
           ),
-        ),
-      ),
-      onSaved: (value) {
-        valueSave = value!;
+          onSaved: (value) => valueSave = value!,
+        );
       },
     );
   }
 
   // รูปโปรไฟล์ วงกลมมีรูปภาพอยู่ด้านใน
-  Widget circleImageButton(String picPath, double size, double picHeight, GestureTapCallback onTap, double radius) {
+  Widget circleImageButton(String picPath, double size, double picHeight, GestureTapCallback onTap, double radius,) {
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
@@ -182,7 +137,7 @@ class Systemwidgetcustom {
 }
 
 // สวิทซ์เลื่อนสร้างขึ้นเอง
-class CustomSwitch extends StatefulWidget {
+class CustomSwitch extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
   final Color activeColor;
@@ -203,48 +158,26 @@ class CustomSwitch extends StatefulWidget {
   });
 
   @override
-  _CustomSwitchState createState() => _CustomSwitchState();
-}
-
-class _CustomSwitchState extends State<CustomSwitch>
-    with SingleTickerProviderStateMixin {
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        widget.onChanged(!widget.value);
-      },
+      onTap: () => onChanged(!value),
       child: AnimatedContainer(
         duration: Duration(milliseconds: 250),
-        width: widget.width,
-        height: widget.height,
+        width: width,
+        height: height,
         padding: EdgeInsets.symmetric(horizontal: 4),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: widget.value ? widget.activeColor : widget.inactiveColor,
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: value ? activeColor : inactiveColor),
         child: Stack(
           children: [
             AnimatedAlign(
               duration: Duration(milliseconds: 250),
-              alignment:
-                  widget.value ? Alignment.centerRight : Alignment.centerLeft,
+              alignment: value ? Alignment.centerRight : Alignment.centerLeft,
               child: Container(
-                width: widget.height - 6,
-                height: widget.height - 6,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: widget.thumbColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
+                width: height - 6,
+                height: height - 6,
+                decoration: BoxDecoration(shape: BoxShape.circle, color: thumbColor, boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 2))]),
               ),
-            )
+            ),
           ],
         ),
       ),

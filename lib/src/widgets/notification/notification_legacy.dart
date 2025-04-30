@@ -1,5 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firstapp/src/bloc/notification/notification_bloc.dart';
+import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
 import 'package:firstapp/src/widgets/notification/legacy_subtitle.dart';
 import 'package:firstapp/src/widgets/notification_widget.dart';
 import 'package:firstapp/src/widgets/utils/responsive.dart';
@@ -44,12 +45,16 @@ class _NotificationLegacyState extends State<NotificationLegacy> {
           },
           child: ListView.separated(
             itemCount: notiState.legacyNotifications.length,
-            separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.grey[300], height: Responsive.isTablet ? 3 : 1),
+            separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.grey[300], thickness: 0),
             itemBuilder: (context, index) {
-              return ListTile(
-                leading: Icon(Icons.notifications, color: Colors.green.shade400,),
-                title: Text(notiState.legacyNotifications[index].message!, style: TextStyle(fontSize: Responsive.isTablet ? 21 : 14),),
-                subtitle: LegacySubtitle(notification: notiState.legacyNotifications[index], isTablet: Responsive.isTablet),
+              return BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (context, themeState) {
+                  return ListTile(
+                    leading: Icon(Icons.notifications, color: themeState.themeApp? const Color.fromARGB(255, 162, 196, 255) : Colors.green.shade400,),
+                    title: Text(notiState.legacyNotifications[index].message!, style: Responsive.isTablet? Theme.of(context).textTheme.titleSmall : Theme.of(context).textTheme.bodyMedium),
+                    subtitle: LegacySubtitle(notification: notiState.legacyNotifications[index], isTablet: Responsive.isTablet),
+                  );
+                },
               );
             }, 
           ),

@@ -1,29 +1,14 @@
+import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class TempInfo extends StatefulWidget {
+class TempInfo extends StatelessWidget {
   const TempInfo({super.key});
 
   @override
-  State<TempInfo> createState() => _TempInfoState();
-}
-
-class _TempInfoState extends State<TempInfo> {
-  final Map<String, dynamic> deviceData = {
-    'name': 'เครื่องช่วยหายใจ',
-    'id': 'A1001',
-    'status': 'Online',
-    'location': 'ห้องฉุกเฉิน 101',
-    'temperature': 5.5,
-    'humidity': 72.1,
-    'lowest_temp': 2,
-    'highest_temp': 38,
-    'lowest_humi': 0,
-    'highest_humi': 100
-  };
-
-  @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> deviceData = {'name': 'เครื่องช่วยหายใจ','id': 'A1001','status': 'Online','location': 'ห้องฉุกเฉิน 101','temperature': 5.5,'humidity': 72.1,'lowest_temp': 2,'highest_temp': 38,'lowest_humi': 0,'highest_humi': 100};
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,8 +35,14 @@ class _TempInfoState extends State<TempInfo> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildRangeColumn('ช่วงอุณหภูมิ', '${deviceData['lowest_temp']}°C - ${deviceData['highest_temp']}°C'),
-            _buildRangeColumn('ช่วงความชื้น', '${deviceData['lowest_humi']}% - ${deviceData['highest_humi']}%'),
+            _buildRangeColumn(
+              'ช่วงอุณหภูมิ',
+              '${deviceData['lowest_temp']}°C - ${deviceData['highest_temp']}°C',
+            ),
+            _buildRangeColumn(
+              'ช่วงความชื้น',
+              '${deviceData['lowest_humi']}% - ${deviceData['highest_humi']}%',
+            ),
           ],
         ),
       ],
@@ -60,35 +51,27 @@ class _TempInfoState extends State<TempInfo> {
 
   // Widget สำหรับแสดงช่วงค่าที่รองรับ
   Widget _buildRangeColumn(String title, String value) {
-    return Column(
-      children: [
-        Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
-        SizedBox(height: 4),
-        Text(value, style: TextStyle(fontSize: 18, color: Colors.grey[700])),
-      ],
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        return Column(
+          children: [
+            Text(title, style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: themeState.themeApp? Colors.white : Colors.black)),
+            SizedBox(height: 4),
+            Text(value, style: TextStyle(fontSize: 18, color: themeState.themeApp? Colors.white70 : Colors.grey[700])),
+          ],
+        );
+      },
     );
   }
 
   // Widget สำหรับสดงข้อมูลอุณหภูมิและความชื้นของอุปกรณ์
-  Widget _buildSensorReading({
-    required IconData icon,
-    required String label,
-    required String value,
-    required Color color,
-  }) {
+  Widget _buildSensorReading({required IconData icon, required String label, required String value, required Color color}) {
     return Column(
       children: [
         Icon(icon, color: color, size: 50),
         SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
+        BlocBuilder<ThemeBloc, ThemeState>(builder: (context, themeState) => Text(label, style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: themeState.themeApp? Colors.white : Colors.black))),
+        Text(value, style: TextStyle(fontSize: 40,fontWeight: FontWeight.bold,color: color)),
       ],
     );
   }

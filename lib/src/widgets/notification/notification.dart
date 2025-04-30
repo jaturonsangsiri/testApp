@@ -1,7 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firstapp/src/bloc/notification/notification_bloc.dart';
 import 'package:firstapp/src/widgets/notification_widget.dart';
-import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:firstapp/src/widgets/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +43,7 @@ class _NotificationListState extends State<NotificationList> {
           },
           child: ListView.separated(
             itemCount: notiState.notifications.length,
-            separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.grey[300], height: Responsive.isTablet ? 3 : 1),
+            separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.grey[300], thickness: 0),
             itemBuilder: (BuildContext context, int index) {
               return notificationWidget.buildNotificationWidget(
                 context,

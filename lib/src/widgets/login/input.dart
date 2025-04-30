@@ -101,38 +101,28 @@ class _InputFormState extends State<LoginForm> {
       child: Column(
         children: [
           TextFormField(
+            style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
               hintText: 'บัญชีผู้ใช้',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(
-                  color: sixColor,
-                ),
-              ),
+              hintStyle: TextStyle(color: Colors.black),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: sixColor)),
             ),
             controller: usernameController,
             focusNode: userFocus,
           ),
           const SizedBox(height: 20),
           TextFormField(
+            style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
               hintText: 'รหัสผ่าน',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
+              hintStyle: TextStyle(color: Colors.black),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
               suffixIcon: GestureDetector(
                 onTap: togglePassword,
                 child: isShowPass ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(
-                  color: sixColor,
-                ),
-              ),
+              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: sixColor)),
             ),
             obscureText: isShowPass,
             controller: passwordController,
@@ -152,20 +142,10 @@ class _InputFormState extends State<LoginForm> {
                   decoration: BoxDecoration(
                     color: secColor,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(181, 181, 181, 0.5),
-                        blurRadius: 4,
-                        offset: Offset(4, 8), // Shadow position
-                      ),
+                    boxShadow: [BoxShadow(color: Color.fromRGBO(181, 181, 181, 0.5), blurRadius: 4,offset: Offset(4, 8)),
                     ],
                   ),
-                  child: Center(
-                    child: Text(
-                      'เข้าสู่ระบบ',
-                      style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  child: Center(child: Text('เข้าสู่ระบบ', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold))),
                 ),
               ),
             ],

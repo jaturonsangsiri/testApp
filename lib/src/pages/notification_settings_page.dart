@@ -27,10 +27,26 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   ];
   Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('การตั้งค่าแจ้งเตือน',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white,),),
+        centerTitle: true,
+        leading: IconButton(icon: const Icon(Icons.arrow_back, color: Colors.white,),onPressed: () => Navigator.pop(context),),
+      ),
+      body: ListView.separated(
+        itemCount: settings.length,
+        itemBuilder: (context, index) => buildNotificationSetting(settings[index]),
+        separatorBuilder: (context, index) => Divider(color: Colors.grey[300], thickness: 0),
+      ),
+    );
+  }
+
   // widget สำหรับการสร้างการตั้งค่าการแจ้งเตือน
   Widget buildNotificationSetting(Map setting) {
     return ListTile(
-      title: Text(setting['title']),
+      title: Text(setting['title'], style: Theme.of(context).textTheme.bodyLarge),
       trailing: CustomSwitch(
         value: setting['value'],
         onChanged: (val) {
@@ -46,26 +62,6 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
         inactiveColor: Colors.grey.shade400,  
         thumbColor: Colors.white,
         activeColor: threeColor,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('การตั้งค่าแจ้งเตือน',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white,),),
-        backgroundColor: secColor,
-        centerTitle: true,
-        leading: IconButton(icon: const Icon(Icons.arrow_back, color: Colors.white,),onPressed: () => Navigator.pop(context),),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.separated(
-          itemCount: settings.length,
-          itemBuilder: (context, index) => buildNotificationSetting(settings[index]),
-          separatorBuilder: (context, index) => Divider(),
-        ),
       ),
     );
   }

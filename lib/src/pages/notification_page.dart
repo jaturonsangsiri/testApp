@@ -5,7 +5,6 @@ import 'package:firstapp/src/widgets/notification/notification.dart';
 import 'package:firstapp/src/widgets/notification/notification_legacy.dart';
 import 'package:firstapp/src/widgets/tab_item.dart';
 import 'package:firstapp/src/widgets/appbar.dart';
-import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +18,6 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   int tabLength = 1;
-  late final TextStyle tabTextStyle;
   final List<TabItem> tab = [];
   final List<Widget> tabView = [];
 
@@ -32,13 +30,6 @@ class _NotificationPageState extends State<NotificationPage> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-
-    if (Responsive.isTablet) {
-      tabTextStyle = const TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
-    } else {
-      tabTextStyle = const TextStyle(fontSize: 14, fontWeight: FontWeight.w600);
-    }
-
     _tabController = TabController(length: tabLength, vsync: this);
   }
 

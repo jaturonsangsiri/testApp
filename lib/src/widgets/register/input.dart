@@ -64,8 +64,7 @@ class _RegisterFormState extends State<RegisterForm> {
               return AlertDialog(
                 title: const Text('สมัครบัญชีสำเร็จ'),
                 content: const Text('คุณได้สมัครบัญชีเรียบร้อยแล้ว'),
-                actions: [
-                  TextButton(
+                actions: [TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.pop(context);
@@ -129,13 +128,13 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: [
           const SizedBox(height: 20,),
-          systemwidgetcustom.normalTextFormField(controller: nameController,hintText: 'ชื่อผู้ใช้',keyboardType: TextInputType.name,valueSave: name, focus: nameFocus),
+          systemwidgetcustom.normalTextFormField(controller: nameController,hintText: 'ชื่อผู้ใช้',keyboardType: TextInputType.name,valueSave: name, focus: nameFocus, hintColor: Colors.black),
           const SizedBox(height: 10,),
-          systemwidgetcustom.normalTextFormField(controller: passwordController,hintText: 'รหัสผ่าน',keyboardType: TextInputType.visiblePassword,valueSave: password, focus: passFocus),
+          systemwidgetcustom.normalTextFormField(controller: passwordController,hintText: 'รหัสผ่าน',keyboardType: TextInputType.visiblePassword,valueSave: password, focus: passFocus, hintColor: Colors.black),
           const SizedBox(height: 10,),
-          systemwidgetcustom.normalTextFormField(hintText: 'ยืนยันรหัสผ่าน', controller: conFirmPasswordController, keyboardType: TextInputType.visiblePassword, valueSave: conFirmPassword, focus: conFocus),
+          systemwidgetcustom.normalTextFormField(hintText: 'ยืนยันรหัสผ่าน', controller: conFirmPasswordController, keyboardType: TextInputType.visiblePassword, valueSave: conFirmPassword, focus: conFocus, hintColor: Colors.black),
           const SizedBox(height: 10,),
-          systemwidgetcustom.normalTextFormField(controller: accountNameController,hintText: 'ชื่อที่แสดง',keyboardType: TextInputType.name,valueSave: accountName, focus: accNameFocus),
+          systemwidgetcustom.normalTextFormField(controller: accountNameController,hintText: 'ชื่อที่แสดง',keyboardType: TextInputType.name,valueSave: accountName, focus: accNameFocus, hintColor: Colors.black),
           const SizedBox(height: 30,),
     
           // ปุ่มสมัครบัญชี
@@ -150,20 +149,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   decoration: BoxDecoration(
                     color: secColor,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(181, 181, 181, 0.5),
-                        blurRadius: 4,
-                        offset: Offset(4, 8), // Shadow position
-                      ),
-                    ],
+                    boxShadow: [BoxShadow(color: Color.fromRGBO(181, 181, 181, 0.5), blurRadius: 4, offset: Offset(4, 8))],
                   ),
-                  child: Center(
-                    child: Text(
-                      'สมัครบัญชี',
-                      style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  child: Center(child: Text('สมัครบัญชี', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold))),
                 ),
               ),
             ],

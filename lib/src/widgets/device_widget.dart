@@ -1,21 +1,30 @@
 // Widget ของอุปกรณ์ที่แสดงในแอปพลิเคชั่น
+import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
+import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/widgets/device/noti.dart';
 import 'package:firstapp/src/widgets/device/temp_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeviceStatus extends StatelessWidget {
   final Color bgColor;
   final Color textColor;
   final String status;
   final double fontSize;
-  const DeviceStatus({super.key, required this.bgColor, required this.textColor, required this.status, required this.fontSize});
+  const DeviceStatus({
+    super.key,
+    required this.bgColor,
+    required this.textColor,
+    required this.status,
+    required this.fontSize,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 6,right: 6,top: 4,bottom: 4), 
-      decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(15)), 
-      child: Text(status, style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: textColor),), 
+      padding: EdgeInsets.only(left: 6, right: 6, top: 4, bottom: 4),
+      decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(15)),
+      child: Text(status, style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: textColor)),
     );
   }
 }
@@ -32,14 +41,15 @@ class DeviceDetailWidget extends StatelessWidget {
         children: [
           SizedBox(
             height: 260,
-            child: Card(
-              elevation: 3,
-              color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: TempInfo(),
-              ),
+            child: BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (context, themeState) {
+                return Card(
+                  elevation: 3,
+                  color: themeState.themeApp? boxColorDark : Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  child: Padding(padding: const EdgeInsets.all(16), child: TempInfo()),
+                );
+              },
             ),
           ),
           SizedBox(height: 20),

@@ -24,13 +24,11 @@ class CircleIcon extends StatelessWidget {
         ElevatedButton(
           onPressed: function,
           style: ButtonStyle(
-            shape: MaterialStateProperty.all(CircleBorder()),
-            padding: MaterialStateProperty.all(EdgeInsets.all(padding)),
-            backgroundColor: MaterialStateProperty.all(
-              colorbg,
-            ), // <-- Button color
-            overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
-              if (states.contains(MaterialState.pressed)) {
+            shape: WidgetStateProperty.all(CircleBorder()),
+            padding: WidgetStateProperty.all(EdgeInsets.all(padding)),
+            backgroundColor: WidgetStateProperty.all(colorbg), // <-- Button color
+            overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+              if (states.contains(WidgetState.pressed)) {
                 return threeColor; // <-- Splash color
               }
             }),
@@ -59,47 +57,6 @@ class IconText extends StatelessWidget {
         Text(text, style: TextStyle(color: color, fontSize: fontSize),),
         const SizedBox(width: 10,)
       ],
-    );
-  }
-}
-
-// ไอคอนมีกรอบวงกลมรอบไอคอนแต่ไม่มีเลขเหมือนตัวแจ้งเตือน หรือแจ้งเตือนจำนวนข้อความ
-class CircleIconNoNumber extends StatelessWidget {
-  final Color? colorbg;
-  final Widget? icon;
-  final Function()? function;
-  final double padding;
-
-  const CircleIconNoNumber({
-    required this.icon,
-    required this.colorbg,
-    required this.function,
-    required this.padding,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: function,
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(CircleBorder()),
-        padding: MaterialStateProperty.all(EdgeInsets.all(padding)),
-        backgroundColor: MaterialStateProperty.all(
-          colorbg,
-        ), // <-- Button color
-        overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
-          if (states.contains(MaterialState.pressed)) {
-            return secColor; // <-- Splash color
-          }
-        }),
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          icon!,
-        ],
-      ),
     );
   }
 }

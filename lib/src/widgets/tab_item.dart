@@ -13,23 +13,12 @@ class TabItem extends StatelessWidget {
       child: Row( 
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            title,
-            overflow: TextOverflow.ellipsis,
-          ),
+          Text(title, overflow: TextOverflow.ellipsis),
           count != null? Container(
             margin: const EdgeInsetsDirectional.only(start: 5),
             padding: const EdgeInsets.all(3),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                count! > 9 ? '9+' : count.toString(),
-                style: TextStyle(color: Colors.black54),
-              ),
-            ),
+            decoration: BoxDecoration(color: Colors.grey.shade200, shape: BoxShape.circle),
+            child: Center(child: Text(count! > 9 ? '9+' : count.toString(), style: TextStyle(color: Colors.black54))),
           ) : const SizedBox(width: 0, height: 0,),
         ],
       ),
