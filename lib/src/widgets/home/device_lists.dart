@@ -70,7 +70,7 @@ class _DeviceListsState extends State<DeviceLists> {
                             scale: 0.7,
                           ),
                         ),
-                        title: Text(state.devices[i].name!, style: TextStyle(fontSize: Responsive.isTablet? 18 : 14, fontWeight: FontWeight.w700, color: themeState.themeApp? Colors.white : Colors.black)),
+                        title: Text(state.devices[i].name ?? "", style: TextStyle(fontSize: Responsive.isTablet? 18 : 14, fontWeight: FontWeight.w700, color: themeState.themeApp? Colors.white : Colors.black)),
                         subtitle: SubtitleList(deviceInfo: state.devices[i]),
                       ),
                     ),

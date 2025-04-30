@@ -13,6 +13,9 @@ class SubtitleList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
+        if(deviceInfo!.name == null) {
+          return Text('ไม่มีข้อมูล', style: TextStyle(fontSize: 12, color: Colors.grey));
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

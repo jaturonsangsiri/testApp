@@ -1,4 +1,6 @@
+import 'package:firstapp/src/bloc/device/devices_bloc.dart';
 import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
+import 'package:firstapp/src/bloc/user/users_bloc.dart';
 import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/pages/notification_page.dart';
 import 'package:firstapp/src/pages/profile_page.dart';
@@ -90,11 +92,10 @@ class _OptionsMenubarState extends State<OptionsMenubar> {
                         Navigator.pop(context);
                         systemwidgetcustom.showDialogConfirm(context, 'ออกจากระบบ', 'ท่านต้องการออกจากระบบหรือไม่?', () async {
                           // ออกจากระบบไปหน้าเข้าสู่ระบบ
-                          //setState(() => _isLoggingOut = true);
                           await configStorage.clearTokens();
                           if (context.mounted) {
-                            // context.read<UsersBloc>().add(RemoveUser());
-                            // context.read<DevicesBloc>().add(ClearDevices());
+                            context.read<UsersBloc>().add(RemoveUser());
+                            context.read<DevicesBloc>().add(ClearDevices());
                             Navigator.of(context).pop();
                             Navigator.pushNamedAndRemoveUntil(context, custom_route.Route.login, (route) => false);
                           }

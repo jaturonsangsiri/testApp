@@ -3,6 +3,7 @@ import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
 import 'package:firstapp/src/constants/contants.dart';
 import 'package:firstapp/src/widgets/probe_setting/setting_sub_widget.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,9 +12,55 @@ class ReportSetting extends StatelessWidget {
 
   // เลือกตัวเวลา
   Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay time) async {
-    return await showTimePicker(
+    DateTime now = DateTime.now();
+    DateTime selectedDateTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+
+    return await showDialog<TimeOfDay>(
       context: context,
-      initialTime: time,
+      builder: (BuildContext context) {
+        return BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, themeState) => Dialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            backgroundColor: themeState.themeApp? boxColorDark : Colors.white,
+            child: SizedBox(
+              height: 300,
+              child: Column(
+                children: [
+                  Padding(padding: const EdgeInsets.all(16), child: Text("เลือกเวลา", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: themeState.themeApp? Colors.white : Colors.black87))),
+                  Expanded(
+                    child: CupertinoTheme(
+                      data: CupertinoThemeData(brightness: themeState.themeApp ? Brightness.dark : Brightness.light),
+                      child: DefaultTextStyle(
+                        style: TextStyle(color: themeState.themeApp ? Colors.white : Colors.black87, fontSize: 22),
+                        child: CupertinoTimerPicker(
+                          mode: CupertinoTimerPickerMode.hm,
+                          initialTimerDuration: Duration(hours: selectedDateTime.hour, minutes: selectedDateTime.minute),
+                          minuteInterval: 10,
+                          onTimerDurationChanged: (Duration newDuration) => selectedDateTime = DateTime(now.year, now.month, now.day, newDuration.inHours, newDuration.inMinutes % 60),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(child: Text("ยกเลิก", style: TextStyle(color: themeState.themeApp? Colors.white : Colors.black87)), onPressed: () => Navigator.of(context).pop(null)),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: secColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                        child: const Text("ตกลง", style: TextStyle(color: Colors.white)),
+                        onPressed: () => Navigator.of(context).pop(TimeOfDay(hour: selectedDateTime.hour, minute: selectedDateTime.minute)),
+                      ),
+                      const SizedBox(width: 16),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
