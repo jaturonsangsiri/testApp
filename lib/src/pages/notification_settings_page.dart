@@ -1,4 +1,5 @@
 import 'package:firstapp/src/constants/contants.dart';
+import 'package:firstapp/src/services/preference.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/material.dart';
 
@@ -11,21 +12,36 @@ class NotificationSettingsPage extends StatefulWidget {
 
 class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   // ลิสต์การตั้งค่าการแจ้งเตือน
-  List<Map> settings = [
-    {
-      'title': 'การแจ้งเตือนอุณหภูมิ',
-      'value': true,
-    },
-    {
-      'title': 'การแจ้งเตือนประตู',
-      'value': false,
-    },
-    {
-      'title': 'การแจ้งเตือนระบบ Line',
-      'value': false,
-    },
-  ];
+  List<Map> settings = [];
   Systemwidgetcustom systemwidgetcustom = Systemwidgetcustom();
+  final configStorage = ConfigStorage();
+  bool notification = false, door = false, legacy = false;
+  String role = "";
+
+  // ดึงค่าการตั้งค่าการแจ้งเตือน
+  Future<void> loadingNotificationSettings() async {
+    setState(() => settings = []);
+    notification = await configStorage.getNotificationStatus() ?? false;
+    door = await configStorage.getDoorStatus() ?? false;
+    legacy = await configStorage.getLegacyStatus() ?? false;
+    role = await configStorage.getRole() ?? "";
+
+    // ถ้าเป็น Role  
+    if(role != "LEGACY_USER" || role != "LEGACY_ADMIN") {
+      settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door}];
+    }
+
+    if(role == "SERVICE" || role == "SUPER") {
+      settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door},{"title": "การแจ้งเตือนระบบ Line","value": legacy}];
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadingNotificationSettings();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +51,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
         centerTitle: true,
         leading: IconButton(icon: const Icon(Icons.arrow_back, color: Colors.white,),onPressed: () => Navigator.pop(context),),
       ),
-      body: ListView.separated(
+      body: settings.isEmpty? Center(child: Text('ไม่มีข้อมูล'),) : ListView.separated(
         itemCount: settings.length,
         itemBuilder: (context, index) => buildNotificationSetting(settings[index]),
         separatorBuilder: (context, index) => Divider(color: Colors.grey[300], thickness: 0),
@@ -49,15 +65,16 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
       title: Text(setting['title'], style: Theme.of(context).textTheme.bodyLarge),
       trailing: CustomSwitch(
         value: setting['value'],
-        onChanged: (val) {
-          // String txt = setting['value']?'ปิด':'เปิด';
-          // systemwidgetcustom.showDialogConfirm(context, '$txtการตั้งค่า', 'ท่านต้องการ$txtการตั้งค่าหรือไม่?', () {
-          //   // ปิดทั้ง Dialog และแก้ไข UI การตั้งค่า
-          //   Navigator.pop(context);
-          // }, primaryColor, const Color.fromRGBO(255, 99, 71, 1));
-          setState(() {
-            setting['value'] = val;
-          });
+        onChanged: (val) async {
+          if(setting['title'] == "การแจ้งเตือนอุณหภูมิ") {
+            await configStorage.setNotification(val);
+          } else if(setting['title'] == "การแจ้งเตือนประตู") {
+            await configStorage.setDoorNotification(val);
+          } else {
+            await configStorage.setLegacyNotification(val);
+          }
+
+          await loadingNotificationSettings(); // โหลดค่าล่าสุด
         },
         inactiveColor: Colors.grey.shade400,  
         thumbColor: Colors.white,
