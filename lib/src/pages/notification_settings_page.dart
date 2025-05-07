@@ -4,7 +4,9 @@ import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/material.dart';
 
 class NotificationSettingsPage extends StatefulWidget {
-  const NotificationSettingsPage({super.key});
+  final int newWard;
+  final int legacyWard;
+  const NotificationSettingsPage({super.key, required this.newWard, required this.legacyWard});
 
   @override
   State<NotificationSettingsPage> createState() => _NotificationSettingsPageState();
@@ -18,6 +20,18 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
   bool notification = false, door = false, legacy = false;
   String role = "";
 
+  void checlkRole() {
+    if (widget.newWard > 0 && widget.legacyWard > 0) {
+      settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door},{"title": "การแจ้งเตือนระบบ Line","value": legacy}];
+    } else {
+      if (widget.newWard > 0) {
+        settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door}];
+      } else {
+        settings = [{"title": "การแจ้งเตือนระบบ Line","value": legacy}];
+      }
+    }
+  }
+
   // ดึงค่าการตั้งค่าการแจ้งเตือน
   Future<void> loadingNotificationSettings() async {
     setState(() => settings = []);
@@ -26,14 +40,27 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
     legacy = await configStorage.getLegacyStatus() ?? false;
     role = await configStorage.getRole() ?? "";
 
-    // ถ้าเป็น Role  
-    if(role != "LEGACY_USER" || role != "LEGACY_ADMIN") {
-      settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door}];
+    switch (role) {
+      case "SERVICE":
+        settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door},{"title": "การแจ้งเตือนระบบ Line","value": legacy}];
+        break;
+      case "ADMIN":
+        checlkRole();
+        break;
+      case "LEGACY_ADMIN":
+        checlkRole();
+        break;
+      case "USER":
+        settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door}];
+        break;
+      case "LEGACY_USER":
+        settings = [{"title": "การแจ้งเตือนระบบ Line","value": legacy}];
+        break;
+      default:
+        settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door},{"title": "การแจ้งเตือนระบบ Line","value": legacy}];
+        break;
     }
 
-    if(role == "SERVICE" || role == "SUPER") {
-      settings = [{"title": "การแจ้งเตือนอุณหภูมิ","value": notification},{"title": "การแจ้งเตือนประตู","value": door},{"title": "การแจ้งเตือนระบบ Line","value": legacy}];
-    }
     setState(() {});
   }
 

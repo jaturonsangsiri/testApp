@@ -1,3 +1,4 @@
+import 'package:firstapp/src/pages/device_detail_page.dart';
 import 'package:firstapp/src/pages/home_page.dart';
 import 'package:firstapp/src/pages/login_page.dart';
 import 'package:firstapp/src/pages/notification_page.dart';
@@ -11,6 +12,7 @@ class Route {
   static const login = '/login';
   static const notification = '/notification';
   static const register = '/register';
+  static const device = '/device';
 
   static Map<String, WidgetBuilder> getAll() => _route;
 
@@ -19,5 +21,6 @@ class Route {
     login: (context) => const LoginPage(),
     notification: (context) => NotificationPage(),
     register: (context) => const RegisterPage(),
+    device: (context) => DevicedetailPage(),
   };
 }

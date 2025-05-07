@@ -51,6 +51,7 @@ class _NotificationListState extends State<NotificationList> {
                 notiState.notifications[index].detail!,
                 notiState.notifications[index].createAt.toString().substring(11, 16),
                 notiState.notifications[index].createAt.toString().substring(0, 10),
+                null
               );
             },
           ),

@@ -23,7 +23,7 @@ class _LegacyListsState extends State<LegacyLists> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 15), (timer) {
-      context.read<DevicesBloc>().add(GetDevices(ward));
+      context.read<DevicesBloc>().add(GetLegacyDevices(ward));
     });
   }
 

@@ -1,39 +1,52 @@
+import 'package:firstapp/src/bloc/device/devices_bloc.dart';
+import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
+import 'package:firstapp/src/models/log.dart';
 import 'package:firstapp/src/widgets/notification_widget.dart';
+import 'package:firstapp/src/widgets/utils/convert.dart';
+import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Noti extends StatelessWidget {
-  const Noti({super.key});
+  final String devSerial;
+  const Noti({super.key, required this.devSerial});
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> notifications = [
-    {'title': 'โรงพยาบาลศิริราช','message': 'PROBE1: แจ้งเตือนเมื่ออุณหภูมิต่ำกว่า 15 องศา','datetime': '08:30 2025-04-15'},
-    {'title': 'โรงพยาบาลจุฬา','message': 'PROBE2: แจ้งเตือนเมื่ออุณหภูมิสูงเกิน 35 องศา','datetime': '10:45 2025-04-15'},
-    {'title': 'โรงพยาบาลรามาธิบดี','message': 'PROBE3: แจ้งเตือนเมื่ออุณหภูมิเปลี่ยนแปลงอย่างรวดเร็ว','datetime': '14:20 2025-04-15'},
-    {'title': 'โรงพยาบาลกรุงเทพ','message': 'PROBE4: แจ้งเตือนเมื่ออุณหภูมิสูงเกิน 40 องศา','datetime': '16:00 2025-04-15'},
-    {'title': 'โรงพยาบาลสมิติเวช','message': 'PROBE5: แจ้งเตือนเมื่ออุณหภูมิต่ำกว่า 10 องศา','datetime': '18:15 2025-04-15'},
-    {'title': 'โรงพยาบาลบำรุงราษฎร์','message': 'PROBE6: แจ้งเตือนเมื่ออุณหภูมิสูงเกิน 38 องศา','datetime': '20:00 2025-04-15'},
-    {'title': 'โรงพยาบาลพญาไท','message': 'PROBE7: แจ้งเตือนเมื่ออุณหภูมิเปลี่ยนแปลงเกิน 5 องศาใน 1 ชั่วโมง','datetime': '22:10 2025-04-15'},
-    {'title': 'โรงพยาบาลเวชธานี','message': 'PROBE8: แจ้งเตือนเมื่ออุณหภูมิต่ำกว่า 5 องศา','datetime': '23:45 2025-04-15'},
-    {'title': 'โรงพยาบาลลาดพร้าว','message': 'PROBE9: แจ้งเตือนเมื่ออุณหภูมิสูงเกิน 37 องศา','datetime': '07:00 2025-04-16'},
-    {'title': 'โรงพยาบาลเปาโล','message': 'PROBE10: แจ้งเตือนเมื่ออุณหภูมิต่ำกว่า 12 องศา','datetime': '09:25 2025-04-16'},
-  ];
-  NotificationWidget notificationWidget = NotificationWidget();
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            for (var noti in notifications)
-              notificationWidget.buildNotificationWidget(
-                context,
-                noti['title'],
-                noti['message'],
-                noti['datetime'].split(' ')[0],
-                noti['datetime'].split(' ')[1],
+    NotificationWidget notificationWidget = NotificationWidget();
+    return BlocBuilder<DevicesBloc, DevicesState>(
+      builder: (context, state) {
+        DeviceInfo devices =
+            state.devices.where((i) => i.serial == devSerial).toList().first;
+        if (devices.notification!.isEmpty) {
+          return const Center(child: Text("ไม่มีข้อมูลการแจ้งเตือน"));
+        }
+        return BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, theme) {
+            return Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    for (var device in devices.notification!)
+                      notificationWidget.buildNotificationWidget(
+                        context,
+                        device.detail ?? "-/-",
+                        device.detail!,
+                        device.createAt.toString().substring(0, 10),
+                        device.createAt.toString().substring(11, 16),
+                        ConvertMessage.showIcon(
+                          device.message ?? "-/-",
+                          Responsive.isTablet ? 35 : 30,
+                          theme.themeApp,
+                        ),
+                      ),
+                  ],
+                ),
               ),
-          ],
-        ),
-      ),
+            );
+          },
+        );
+      },
     );
   }
 }

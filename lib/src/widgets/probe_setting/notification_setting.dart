@@ -1,13 +1,43 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firstapp/src/bloc/probe/probe_setting_bloc.dart';
 import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
 import 'package:firstapp/src/constants/contants.dart';
+import 'package:firstapp/src/models/devices.dart';
+import 'package:firstapp/src/services/services.dart';
 import 'package:firstapp/src/widgets/probe_setting/setting_sub_widget.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
+import 'package:firstapp/src/widgets/utils/snackbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NotificationSetting extends StatelessWidget {
-  const NotificationSetting({super.key});
+class NotificationSetting extends StatefulWidget {
+  final Probe probe;
+  const NotificationSetting({super.key, required this.probe});
+
+  @override
+  State<NotificationSetting> createState() => _NotificationSettingState();
+}
+
+class _NotificationSettingState extends State<NotificationSetting> {
+  Api api = Api();
+
+  void setValue() {
+    context.read<ProbeSettingBloc>().add(
+      SetValues(
+        temEntryNoti: widget.probe.notiToNormal, 
+        isNotification: widget.probe.notiMobile, 
+        delayfirstNoti: int.parse(widget.probe.notiDelay.toString()), 
+        repeatNoti: widget.probe.notiRepeat
+      )
+    );
+  }
+
+  @override
+  void initState() {
+    setValue();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +54,36 @@ class NotificationSetting extends StatelessWidget {
                 children: [
                   Text('🔔 ตั้งค่าการแจ้งเตือน',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: themeState.themeApp? secColorDarkSub : secColor)),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      // print('🔘 เปิดแจ้งเตือน: ${isNotification ? "เปิด" : "ปิด"}');
-                      // print('🌡 แจ้งอุณหภูมิช่วงเข้า: ${TemEntryFunction ? "เปิด" : "ปิด"}');
-                      // print('🔁 แจ้งเตือนทุกวัน: ${isDairyNoti ? "ใช่" : "ไม่ใช่"}');
-                      // print('🕒 หน่วงการแจ้งครั้งแรก: $delayfirstNoti นาที');
-                      // print('🔄 แจ้งเตือนซ้ำทุก: ${repeatNoti > 0 ? "$repeatNoti นาที" : "ไม่แจ้งซ้ำ"}');
-
-                      // print('📆 วันที่และเวลาการแจ้งเตือน');
-                      // print('1️⃣ วัน: $firstDayNoti $secondDayNoti $thirdDayNoti');
-                      // print('เวลา: เวลา: ${firstTime.hour.toString().padLeft(2, '0')}:${firstTime.minute.toString().padLeft(2, '0')} น.\n${secondTime.hour.toString().padLeft(2, '0')}:${secondTime.minute.toString().padLeft(2, '0')} น.\n${thirdTime.hour.toString().padLeft(2, '0')}:${thirdTime.minute.toString().padLeft(2, '0')} น.');
-
-                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ บันทึกการตั้งค่าเรียบร้อยแล้ว'),behavior: SnackBarBehavior.floating,));
+                    onPressed: () async {
+                      // print('🔘 เปิดแจ้งเตือน: ${state.isNotification}');
+                      // print('🌡 แจ้งอุณหภูมิช่วงเข้า: ${state.temEntryNoti}');
+                      // print('🔁 แจ้งเตือนทุกวัน: ${state.isDairyNoti}');
+                      // print('🕒 หน่วงการแจ้งครั้งแรก: ${state.delayfirstNoti}');
+                      // print('🔄 แจ้งเตือนซ้ำทุก: ${state.repeatNoti}');
+                      // print('1️⃣ วัน: ${state.firstDayNoti} ${state.secondDayNoti} ${state.thirdDayNoti}');
+                      // print('${state.firstTime.hour.toString().padLeft(2, '0')}${state.firstTime.minute.toString().padLeft(2, '0')} \n${state.secondTime.hour.toString().padLeft(2, '0')}${state.secondTime.minute.toString().padLeft(2, '0')} \n${state.thirdTime.hour.toString().padLeft(2, '0')}${state.thirdTime.minute.toString().padLeft(2, '0')}');
+                      
+                      final payload = Probe(
+                        notiToNormal: state.temEntryNoti,
+                        notiMobile: state.isNotification,
+                        notiDelay: state.delayfirstNoti,
+                        notiRepeat: state.repeatNoti,
+                        firstDay: state.firstDayNoti,
+                        secondDay: state.secondDayNoti,
+                        thirdDay: state.thirdDayNoti,
+                        firstTime: "${state.firstTime.hour.toString().padLeft(2,'0')}${state.firstTime.minute.toString().padLeft(2,'0')}",
+                        secondTime: "${state.secondTime.hour.toString().padLeft(2,'0')}${state.secondTime.minute.toString().padLeft(2,'0')}",
+                        thirdTime: "${state.thirdTime.hour.toString().padLeft(2,'0')}${state.thirdTime.minute.toString().padLeft(2,'0')}",
+                      );
+                      try {
+                        final result = await api.updateProbe(widget.probe.id!, payload);
+                        if (result) {
+                          if (context.mounted) ShowSnackbar.snackbar(ContentType.success, "บันทึกข้อมูลสำเร็จ", "บันทึกข้อมูลสำเร็จ");
+                        }
+                      } on Exception catch (e) {
+                        if (kDebugMode) print(e);
+                        if (context.mounted) ShowSnackbar.snackbar(ContentType.failure, "เกิดข้อผิดพลาด", "ไม่สามารถบันทึกข้อมูลได้");
+                      }
                     },
                     icon: const Icon(Icons.save, color: Colors.white, size: 30),
                     label: const Text('บันทึก',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold)),
@@ -51,7 +99,7 @@ class NotificationSetting extends StatelessWidget {
               const SizedBox(height: 15),
               settingSubWidget.buildRowSetting(
                 icon: Icons.thermostat,
-                title: 'แจ้งอุณหภูมิกลับช่วงเข้า',
+                title: 'แจ้งอุณหภูมิกลับเข้าช่วง',
                 trailing: CustomSwitch(
                   value: state.temEntryNoti,
                   onChanged: (value) => context.read<ProbeSettingBloc>().add(SetValues(temEntryNoti: !state.temEntryNoti)),

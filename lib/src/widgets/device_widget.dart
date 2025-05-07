@@ -1,6 +1,7 @@
 // Widget ของอุปกรณ์ที่แสดงในแอปพลิเคชั่น
 import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
 import 'package:firstapp/src/constants/contants.dart';
+import 'package:firstapp/src/models/models.dart';
 import 'package:firstapp/src/widgets/device/noti.dart';
 import 'package:firstapp/src/widgets/device/temp_info.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,10 @@ class DeviceStatus extends StatelessWidget {
 
 // แสดงข้อมูลรายละเอียดของอุปกรณ์หน้า DeviceDetailWidget_page.dart
 class DeviceDetailWidget extends StatelessWidget {
-  const DeviceDetailWidget({super.key});
+  final Probe data;
+  final String devSerial;
+  final String probe;
+  const DeviceDetailWidget({super.key, required this.data, required this.devSerial, required this.probe});
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +51,14 @@ class DeviceDetailWidget extends StatelessWidget {
                   elevation: 3,
                   color: themeState.themeApp? boxColorDark : Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                  child: Padding(padding: const EdgeInsets.all(16), child: TempInfo()),
+                  child: Padding(padding: const EdgeInsets.all(16), child: TempInfo(deviceData: data, devSerial: devSerial, probe: probe)),
                 );
               },
             ),
           ),
           SizedBox(height: 20),
           // รายการแจ้งเตือนของอุปกรณ์นี้
-          Noti(),
+          Noti(devSerial: devSerial),
         ],
       ),
     );

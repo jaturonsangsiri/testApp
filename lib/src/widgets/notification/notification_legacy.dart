@@ -37,7 +37,7 @@ class _NotificationLegacyState extends State<NotificationLegacy> {
           context.read<NotificationBloc>().add(const NotificationError(false));
         }
 
-        if(notiState.notifications.isEmpty) return Center(child: Text('data', style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.black.withValues(alpha: 0.7)),),);
+        if(notiState.legacyNotifications.isEmpty) return Center(child: Text('data', style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.black.withValues(alpha: 0.7)),),);
         return RefreshIndicator(
           onRefresh: () async {
             context.read<NotificationBloc>().add(GetLegacyNotifications());

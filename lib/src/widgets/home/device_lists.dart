@@ -10,6 +10,7 @@ import 'package:firstapp/src/widgets/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firstapp/src/configs/route.dart' as custom_route;
 
 class DeviceLists extends StatefulWidget {
   const DeviceLists({super.key});
@@ -49,7 +50,7 @@ class _DeviceListsState extends State<DeviceLists> {
                 itemCount: state.devices.length,
                 itemBuilder: (context, i) {
                   return GestureDetector(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DevicedetailPage())),
+                    onTap: () => Navigator.pushNamed(context, custom_route.Route.device, arguments: {'name': state.devices[i].name!, 'serial': state.devices[i].serial!}),
                     child: Card(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                       //elevation: 8,

@@ -18,9 +18,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UsersBloc, UsersState>(
       builder: (context, user) {
-        if(user.role == "USER" || user.role == "LEGACY_USER" || user.role == "GUEST") {
+        if(user.role == "USER" || user.role == "GUEST") {
           context.read<DevicesBloc>().add(SetHospitalData(user.hospitalId, user.ward, user.type));
           context.read<DevicesBloc>().add(GetDevices(user.ward));
+        }
+        if(user.role == "LEGACY_USER") {
+          context.read<DevicesBloc>().add(SetHospitalData(user.hospitalId, user.ward, user.type));
+          context.read<DevicesBloc>().add(GetLegacyDevices(user.ward));
         }
 
         return BlocBuilder<ThemeBloc, ThemeState>(

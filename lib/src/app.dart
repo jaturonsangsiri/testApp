@@ -74,7 +74,7 @@ class App extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          // ปรับให้การเลือกเวลาเป็น forat 24 ชม.
+          // ปรับให้การเลือกเวลาเป็น format 24 ชม.
           builder: (context, child) {
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),

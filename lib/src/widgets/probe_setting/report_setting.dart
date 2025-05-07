@@ -1,15 +1,22 @@
 import 'package:firstapp/src/bloc/probe/probe_setting_bloc.dart';
 import 'package:firstapp/src/bloc/theme/theme_bloc.dart';
 import 'package:firstapp/src/constants/contants.dart';
+import 'package:firstapp/src/models/devices.dart';
 import 'package:firstapp/src/widgets/probe_setting/setting_sub_widget.dart';
 import 'package:firstapp/src/widgets/system_widget_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ReportSetting extends StatelessWidget {
-  const ReportSetting({super.key,});
+class ReportSetting extends StatefulWidget {
+  final Probe probe;
+  const ReportSetting({super.key, required this.probe});
 
+  @override
+  State<ReportSetting> createState() => _ReportSettingState();
+}
+
+class _ReportSettingState extends State<ReportSetting> {
   // เลือกตัวเวลา
   Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay time) async {
     DateTime now = DateTime.now();
@@ -64,6 +71,26 @@ class ReportSetting extends StatelessWidget {
     );
   }
 
+  void setValue() {
+    context.read<ProbeSettingBloc>().add(
+      SetValues(
+        isDairyNoti: widget.probe.firstDay == 'ALL'? true : false, 
+        firstDayNoti: widget.probe.firstDay, 
+        secondDayNoti: widget.probe.secondDay, 
+        thirdDayNoti: widget.probe.thirdDay, 
+        firstTime: TimeOfDay(hour: int.parse(widget.probe.firstTime!.substring(0, 2)), minute: int.parse(widget.probe.firstTime!.substring(2))), 
+        secondTime: TimeOfDay(hour: int.parse(widget.probe.secondTime!.substring(0, 2)), minute: int.parse(widget.probe.secondTime!.substring(2))), 
+        thirdTime: TimeOfDay(hour: int.parse(widget.probe.thirdTime!.substring(0, 2)), minute: int.parse(widget.probe.thirdTime!.substring(2)))
+      )
+    );
+  }
+
+  @override
+  void initState() {
+    setValue();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     SettingSubWidget settingSubWidget = SettingSubWidget();
@@ -81,7 +108,18 @@ class ReportSetting extends StatelessWidget {
                 title: 'แจ้งเตือนทุกวันหรือไม่', 
                 trailing: CustomSwitch(
                   value: state.isDairyNoti, 
-                  onChanged: (value) => context.read<ProbeSettingBloc>().add(SetValues(isDairyNoti: value)),
+                  onChanged: (value) {
+                    context.read<ProbeSettingBloc>().add(SetValues(isDairyNoti: value));
+                    if(value) {
+                      state.firstDayNoti = 'ALL';
+                      state.secondDayNoti = 'ALL';
+                      state.thirdDayNoti = 'ALL';
+                    } else {
+                      state.firstDayNoti = 'MON';
+                      state.secondDayNoti = 'TUE';
+                      state.thirdDayNoti = 'FRI';
+                    }
+                  },
                   inactiveColor: Colors.grey.shade400,
                   thumbColor: Colors.white,
                   activeColor: threeColor,
@@ -90,17 +128,17 @@ class ReportSetting extends StatelessWidget {
               settingSubWidget.buildRowSetting(
                 icon: Icons.thermostat, 
                 title: 'วันแรกที่แจ้งเตือน', 
-                trailing: dropDownWidget(context, state.firstDayNoti, days, (String? newValue) => context.read<ProbeSettingBloc>().add(SetValues(firstDayNoti: newValue)), themeState)
+                trailing: state.firstDayNoti == 'ALL'? Padding(padding: const EdgeInsets.only(top: 12.5,bottom: 12.5,right: 15), child: Text('ALL', style: TextStyle(fontSize: 16, color: themeState.themeApp? Colors.white : secColor,fontWeight: FontWeight.w500))) : dropDownWidget(context, state.firstDayNoti, days, (String? newValue) => context.read<ProbeSettingBloc>().add(SetValues(firstDayNoti: newValue)), themeState)
               ),
               settingSubWidget.buildRowSetting(
                 icon: Icons.thermostat, 
                 title: 'วันที่สองที่แจ้งเตือน', 
-                trailing: dropDownWidget(context, state.secondDayNoti, days, (String? newValue) => context.read<ProbeSettingBloc>().add(SetValues(secondDayNoti: newValue)), themeState)
+                trailing: state.secondDayNoti == 'ALL'? Padding(padding: const EdgeInsets.only(top: 12.5,bottom: 12.5,right: 15), child: Text('ALL', style: TextStyle(fontSize: 16, color: themeState.themeApp? Colors.white : secColor,fontWeight: FontWeight.w500))) : dropDownWidget(context, state.secondDayNoti, days, (String? newValue) => context.read<ProbeSettingBloc>().add(SetValues(secondDayNoti: newValue)), themeState)
               ),
               settingSubWidget.buildRowSetting(
                 icon: Icons.thermostat, 
                 title: 'วันที่สามที่แจ้งเตือน', 
-                trailing: dropDownWidget(context, state.thirdDayNoti, days, (String? newValue) => context.read<ProbeSettingBloc>().add(SetValues(thirdDayNoti: newValue)), themeState)
+                trailing: state.thirdDayNoti == 'ALL'? Padding(padding: const EdgeInsets.only(top: 12.5,bottom: 12.5,right: 15), child: Text('ALL', style: TextStyle(fontSize: 16, color: themeState.themeApp? Colors.white : secColor,fontWeight: FontWeight.w500))) : dropDownWidget(context, state.thirdDayNoti, days, (String? newValue) => context.read<ProbeSettingBloc>().add(SetValues(thirdDayNoti: newValue)), themeState)
               ),
 
               // ตัวตั้งค่าเวลา

@@ -20,6 +20,7 @@ class _NotificationPageState extends State<NotificationPage> with SingleTickerPr
   int tabLength = 1;
   final List<TabItem> tab = [];
   final List<Widget> tabView = [];
+  List newWards = [], legacyWards = [];
 
   @override
   void dispose() {
@@ -78,6 +79,25 @@ class _NotificationPageState extends State<NotificationPage> with SingleTickerPr
             for (var hospital in userState.hospital) {
               wards.addAll(hospital.ward!);
             }
+            newWards = wards.where((ward) => ward.type == "NEW").toList();
+            legacyWards = wards.where((ward) => ward.type == "LEGACY").toList();
+            if (newWards.isNotEmpty && legacyWards.isNotEmpty) {
+              tabLength = 2;
+              tab.addAll([const TabItem(title: 'eTEMP/iTemS'), const TabItem(title: 'Line Notify')]);
+              tabView.addAll([
+                const SizedBox(child: NotificationList()),
+                const SizedBox(child: NotificationLegacy()),
+              ]);
+            } else {
+              if (newWards.isNotEmpty) {
+                tab.addAll([const TabItem(title: 'eTEMP/iTemS')]);
+                tabView.addAll([const SizedBox(child: NotificationList())]);
+              } else {
+                tab.addAll([const TabItem(title: 'Line Notify')]);
+                tabView.addAll([const SizedBox(child: NotificationLegacy())]);
+              }
+            }
+            break;
         }
 
         return DefaultTabController(
@@ -93,7 +113,7 @@ class _NotificationPageState extends State<NotificationPage> with SingleTickerPr
                       () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => NotificationSettingsPage(),
+                          builder: (context) => NotificationSettingsPage(newWard: newWards.length, legacyWard: legacyWards.length),
                         ),
                       ),
                   icon: Icon(Icons.settings, color: Colors.white, size: 30),
